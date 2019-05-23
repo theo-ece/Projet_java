@@ -10,6 +10,7 @@ package Model;
  * @author thebo
  */
 public class Personne {
+    protected String path;
     protected int iD;
     protected String nom;
     protected String prenom;

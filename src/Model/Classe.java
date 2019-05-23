@@ -16,4 +16,8 @@ public class Classe {
         ID=iD;
         nom=N;
     }
+    public void test(){}
+    public void run(String path, int id){
+        
+    }
 }

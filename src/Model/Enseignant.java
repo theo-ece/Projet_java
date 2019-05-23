@@ -12,24 +12,24 @@ import java.util.Scanner;
  *
  * @author thebo
  */
-public class Etudiant extends Personne{
-    protected HashMap<Integer, Enseignant> enseignants;
+public class Enseignant extends Personne{
+    protected HashMap<Integer, Etudiant> etudiants;
     protected HashMap<Integer, Classe> classes;
-    public Etudiant(int id, String Nom, String Prenom){
-        super(id,Nom,Prenom,0);
+    public Enseignant(int id, String Nom, String Prenom){
+        super(id,Nom,Prenom,1);
     }
     public void test(){}
     
-    // Main de Etudiant
+    // Main de Enseignant
     public void run(String Path, int id){
-        chargementEnseignant();
         chargementClasse();
+        chargementEtudiant();
         this.path = Path + " -> Etudiant";
         String str="";
         do{
             str="";
             System.out.println("Entrer votre choix : ");
-            System.out.println("    enseignants");
+            System.out.println("    etudiants");
             System.out.println("    classes");
             System.out.println("Pour sortir : exit");            
             Scanner sc = new Scanner(System.in);
@@ -38,8 +38,8 @@ public class Etudiant extends Personne{
                 case "classes":
                     showClasses(this.path);
                     break;
-                case "enseignants":
-                    showEnseignants(this.path);
+                case "etudiants":
+                    showEtudiants(this.path);
                     break;
                 default:
                     break;
@@ -68,9 +68,9 @@ public class Etudiant extends Personne{
             }
         }while(!"exit".equals(str));
     } 
-    public void showEnseignants(String src){
-        enseignants.keySet().forEach((key) -> {
-            System.out.println( src + " -> Enseignants -> ["+ key + "] : " + enseignants.get(key));
+    public void showEtudiants(String src){
+        etudiants.keySet().forEach((key) -> {
+            System.out.println( src + " -> Enseignants -> ["+ key + "] : " + etudiants.get(key));
         });
         String str="";
         do{
@@ -79,18 +79,18 @@ public class Etudiant extends Personne{
             Scanner sc = new Scanner(System.in);            
             str = sc.nextLine(); 
             try{
-                recherche_enseignant(str);
+                recherche_etudiant(str);
             }catch(HashInexistant e){   
             
             }
             catch(HashExistant e){
-                enseignants.get(Integer.valueOf(str)).run(path, Integer.valueOf(str));
+                etudiants.get(Integer.valueOf(str)).run(path, Integer.valueOf(str));
             }
         }while(!"exit".equals(str));
     }
-    public void recherche_enseignant(String key) throws HashExistant, HashInexistant{    // question 1.3
+    public void recherche_etudiant(String key) throws HashExistant, HashInexistant{    // question 1.3
         try{
-            enseignants.get(Integer.valueOf(key)).test();
+            etudiants.get(Integer.valueOf(key)).test();
             throw new HashExistant();
         }
         catch(NullPointerException e){
@@ -99,7 +99,7 @@ public class Etudiant extends Personne{
     }
     public void recherche_classe(String key) throws HashExistant, HashInexistant{    // question 1.3
         try{
-            enseignants.get(Integer.valueOf(key)).test();
+            classes.get(Integer.valueOf(key)).test();
             throw new HashExistant();
         }
         catch(NullPointerException e){
@@ -108,13 +108,7 @@ public class Etudiant extends Personne{
     }
     
     // Fonctions de chargement
-    public void chargement(int id){
-        this.iD=id;
-        this.nom=""; // a chercher
-        this.prenom = ""; // a chercher
-        this.type = 0;
-    }
-    public void chargementEnseignant(){
+    public void chargementEtudiant(){
         
     }
     public void chargementClasse(){

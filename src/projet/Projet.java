@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package projet;
-
+import Model.*;
 /**
  *
  * @author thebo
@@ -16,6 +16,8 @@ public class Projet {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Ecole ECE = new Ecole();
+        ECE.run();
     }
     
 }
