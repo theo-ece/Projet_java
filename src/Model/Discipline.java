@@ -16,4 +16,7 @@ public class Discipline {
         ID=iD;
         nom=N;
     }
+    public void run(){
+        
+    }
 }

@@ -13,17 +13,21 @@ import java.util.Scanner;
  * @author thebo
  */
 public class Enseignant extends Personne{
-    protected HashMap<Integer, Etudiant> etudiants;
-    protected HashMap<Integer, Classe> classes;
-    public Enseignant(int id, String Nom, String Prenom){
+    protected Discipline matiere;
+    // Etudiant déja existant -> a completer
+    public Enseignant(int id){
+        super(id,0);
+        // sortir toutes les info de la bdd
+    }
+    public Enseignant(int id, String Nom, String Prenom, Discipline M){
         super(id,Nom,Prenom,1);
+        matiere = M;
     }
     public void test(){}
     
-    // Main de Enseignant
+    // Main de Enseignant -> pas a mettre dans le graphe #useless
     public void run(String Path, int id){
-        chargementClasse();
-        chargementEtudiant();
+        //chargementClasse();
         this.path = Path + " -> Etudiant";
         String str="";
         do{
@@ -39,7 +43,7 @@ public class Enseignant extends Personne{
                     showClasses(this.path);
                     break;
                 case "etudiants":
-                    showEtudiants(this.path);
+                    //showEtudiants(this.path);
                     break;
                 default:
                     break;
@@ -47,71 +51,4 @@ public class Enseignant extends Personne{
         }while(!"exit".equals(str));
     }
     
-    // Fonctions d'appel du choix (done)
-    public void showClasses(String src){
-        classes.keySet().forEach((key) -> {
-            System.out.println(src + " -> Classe -> ["+ key + "] : " + classes.get(key));
-        });
-        String str="";
-        do{
-            str="";
-            System.out.println("exit pour sortir");                        
-            Scanner sc = new Scanner(System.in);            
-            str = sc.nextLine(); 
-            try{
-                recherche_classe(str);
-            }catch(HashInexistant e){   
-            
-            }
-            catch(HashExistant e){
-                classes.get(Integer.valueOf(str)).run(path, Integer.valueOf(str));
-            }
-        }while(!"exit".equals(str));
-    } 
-    public void showEtudiants(String src){
-        etudiants.keySet().forEach((key) -> {
-            System.out.println( src + " -> Enseignants -> ["+ key + "] : " + etudiants.get(key));
-        });
-        String str="";
-        do{
-            str="";
-            System.out.println("exit pour sortir");                        
-            Scanner sc = new Scanner(System.in);            
-            str = sc.nextLine(); 
-            try{
-                recherche_etudiant(str);
-            }catch(HashInexistant e){   
-            
-            }
-            catch(HashExistant e){
-                etudiants.get(Integer.valueOf(str)).run(path, Integer.valueOf(str));
-            }
-        }while(!"exit".equals(str));
-    }
-    public void recherche_etudiant(String key) throws HashExistant, HashInexistant{    // question 1.3
-        try{
-            etudiants.get(Integer.valueOf(key)).test();
-            throw new HashExistant();
-        }
-        catch(NullPointerException e){
-            throw new HashInexistant("Enseignant " + key + " non existant");
-        }
-    }
-    public void recherche_classe(String key) throws HashExistant, HashInexistant{    // question 1.3
-        try{
-            classes.get(Integer.valueOf(key)).test();
-            throw new HashExistant();
-        }
-        catch(NullPointerException e){
-            throw new HashInexistant("Niveau " + key + " non existant");
-        }
-    }
-    
-    // Fonctions de chargement
-    public void chargementEtudiant(){
-        
-    }
-    public void chargementClasse(){
-        
-    }
 }

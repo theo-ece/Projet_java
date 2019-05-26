@@ -5,6 +5,9 @@
  */
 package Model;
 
+import java.util.HashMap;
+import java.util.Scanner;
+
 /**
  *
  * @author thebo
@@ -15,10 +18,90 @@ public class Personne {
     protected String nom;
     protected String prenom;
     protected int type;
+    protected HashMap<Integer, Classe> classes;
+    //La personne existe
+    public Personne(int ID,int Type){
+        iD = ID;
+        type = Type;
+        classes = new HashMap<>();
+        /*
+            chargementClasse(ID);
+            Extraire les données de la BDD
+        */
+    }
+    // Creation d'une personne
     public Personne(int ID, String Nom, String Prenom, int typ){
         iD=ID;
         nom= Nom;
         prenom = Prenom;
         type = typ;
+        chargementClasse(ID);
     }
+    
+    // A completer selon le type et l'ID
+    public void chargementClasse(int id){
+        classes = new HashMap<>();
+        /*
+            ... ton code
+        */
+    }
+    public void showClasses(String src){
+        classes.keySet().forEach((key) -> {
+            System.out.println(src + " -> Classe -> ["+ key + "] : " + classes.get(key));
+        });
+        String str="";
+        do{
+            str="";
+            System.out.println("exit pour sortir");                        
+            Scanner sc = new Scanner(System.in);            
+            str = sc.nextLine(); 
+            try{
+                recherche_classe(str);
+            }catch(HashInexistant e){   
+            
+            }
+            catch(HashExistant e){
+                classes.get(Integer.valueOf(str)).run(path, Integer.valueOf(str));
+            }
+        }while(!"exit".equals(str));
+    } 
+    public void recherche_classe(String key) throws HashExistant, HashInexistant{    // question 1.3
+        try{
+            classes.get(Integer.valueOf(key)).test();
+            throw new HashExistant();
+        }
+        catch(NullPointerException e){
+            throw new HashInexistant("Niveau " + key + " non existant");
+        }
+    }
+    
+    public void ajout_classe(){
+        String key="";
+        System.out.println("ID de la classe a ajouter (BDD) : ");
+        Scanner sc = new Scanner(System.in);
+        key = sc.nextLine();
+        try{
+            recherche_classe(key);
+        }catch(HashInexistant e){
+            classes.put(Integer.valueOf(key), import_classe(Integer.valueOf(key)));
+        }catch(HashExistant e){
+            
+        }
+    }   // + modif BDD à faire
+    public void erase_classe(){
+        String key="";
+        System.out.println("ID de la Classe a supprimer : ");
+        Scanner sc = new Scanner(System.in);
+        key = sc.nextLine();
+        try{
+            recherche_classe(key);
+        }catch(HashInexistant e){
+            System.out.println("La classe n'existe pas.");
+        }catch(HashExistant e){
+            classes.remove(Integer.valueOf(key));
+        }
+    }   // + modif BDD à faire & graph
+    public Classe import_classe(int key){return new Classe(key);}
+    
+    
 }

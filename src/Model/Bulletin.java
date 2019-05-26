@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.util.HashMap;
+
 /**
  *
  * @author thebo
@@ -12,8 +14,11 @@ package Model;
 public class Bulletin {
     protected int ID;
     protected String appreciation;
-    public Bulletin(int iD, String f){
+    protected HashMap<Integer, Evaluation> eval;
+    public Bulletin(int iD){
         ID=iD;
-        appreciation = f;
+        /*
+            Sortir de la bdd les note du gars et son appreciation
+        */
     }
 }
