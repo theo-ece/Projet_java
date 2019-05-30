@@ -122,7 +122,8 @@ public class ClasseDAO extends DAO<Classe> {
             }
             
             //Récupération de l'ordre de la requete
-            String rqt = "insert into classe (" + champs + ") values (\'" + obj.getNom() + "\');";
+            String rqt = "insert into classe (" + champs + ") values (\'" + obj.getNom() + "\'," + obj.getEcole().getID() + ", " + obj.getNiveau().getID() + ", " + obj.getAnnee().getID() + ");";
+            System.out.println(rqt);
             
             //Ajout de l'élément dans la table
             connect.getStatement().executeUpdate(rqt);
@@ -138,10 +139,11 @@ public class ClasseDAO extends DAO<Classe> {
     }
 
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
+    /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
+     * @param id
      * @return  */
     @Override
-    public Classe trouver(int id) {
+    public Classe trouver_et_charge(int id) {
         
         //Création d'un objet Classe
         Classe classe = new Classe();
@@ -165,7 +167,7 @@ public class ClasseDAO extends DAO<Classe> {
         try {
 
             //Recherche dans etudiant les Id_classe correspondant à notre objet Classe
-            ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from etudiant where Id_classe = " + id);
+            ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from inscription where Id_classe = " + id);
 
             //Si on a un résultat, on se positionne sur cette ligne
             if (rset2.first()){
@@ -174,13 +176,44 @@ public class ClasseDAO extends DAO<Classe> {
                 PersonneDAO etudiant_DAO = new PersonneDAO(connect);
 
                 //Ajout d'un etudiant
-                classe.addEtudiants((Etudiant) etudiant_DAO.trouver(rset2.getInt("Id")));
+                classe.addEtudiants((Etudiant) etudiant_DAO.trouver(rset2.getInt("Id_personne")));
 
                 //Tant qu'il y a un résultat, on ajoute un etudiant dans la liste des etudiants de notre objet Classe
                 while(rset2.next()) 
-                    classe.addEtudiants((Etudiant) etudiant_DAO.trouver(rset2.getInt("Id")));         
+                    classe.addEtudiants((Etudiant) etudiant_DAO.trouver(rset2.getInt("Id_personne")));         
             }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(ClasseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Retourne l'objet trouvé
+        return classe;
+    
+    }
+    
+    
+    /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
+     * @param id
+     * @return  */
+    @Override
+    public Classe trouver(int id) {
+        
+        //Création d'un objet Classe
+        Classe classe = new Classe();
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from classe where id = " + id);  
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset.first()){
+                
+                //Création du nouvel objet Classe
+                classe = new Classe(id, rset.getString("Nom"));
+                
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(ClasseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

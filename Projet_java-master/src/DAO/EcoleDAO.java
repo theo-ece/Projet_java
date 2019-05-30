@@ -137,6 +137,118 @@ public class EcoleDAO extends DAO<Ecole> {
     }
 
     
+    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
+     * @return  */
+    @Override
+    public Ecole trouver_et_charge(int id) {
+        
+        //Création d'un objet Ecole
+        Ecole ecole = new Ecole();
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from ecole where id = " + id); 
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset.first()){
+                
+                //Création du nouvel objet Ecole
+                ecole = new Ecole(id, rset.getString("Nom"), rset.getString("Region"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(EcoleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from classe where Id_ecole =" + id);   
+
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset2.first()){
+
+                //Création d'un objet Niveau
+                NiveauDAO niveau_dao = new NiveauDAO(connect);
+
+                //Ajout des niveaux dans l'Ecole
+                ecole.addNiveaux(niveau_dao.trouver(rset2.getInt("Id_niveau")));  
+
+                //Tant qu'il y a un résultat, on ajoute le niveau dans la liste de niveaux de notre objet Ecole
+                while(rset2.next()) 
+                    ecole.addNiveaux(niveau_dao.trouver(rset2.getInt("Id_niveau")));     
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EcoleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }     
+        
+        try {
+            
+            //Récupération de l'ordre de la requete
+            ResultSet rset1 = connect.getConnexion().createStatement().executeQuery("select * from classe where Id_ecole  = " + id);
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            while(rset1.next()){
+                    
+                //Récupération de l'ordre de la requete
+                ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from enseignement where Id_classe  = " + rset1.getInt("Id"));   
+
+                //Si on a un résultat, on se positionne sur cette ligne
+                if (rset2.first()){
+
+                    //Création d'un objet Personne
+                    PersonneDAO enseignant_dao = new PersonneDAO(connect);
+
+                    //Ajout des enseignants dans l'ecole
+                    ecole.addEnseignants((Enseignant) enseignant_dao.trouver(rset2.getInt("Id_personne")));
+
+                    //Tant qu'il y a un résultat, on ajoute l'enseignant dans la liste des enseignants de notre objet Ecole
+                    while(rset2.next()) 
+                        ecole.addEnseignants((Enseignant) enseignant_dao.trouver(rset2.getInt("Id_personne")));     
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EcoleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            
+            //Récupération de l'ordre de la requete
+            ResultSet rset1 = connect.getConnexion().createStatement().executeQuery("select * from classe where Id_ecole  = " + id);
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            while(rset1.next()){
+
+                //Récupération de l'ordre de la requete
+                ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from inscription where Id_classe = " + rset1.getInt("Id"));   
+
+                //Si on a un résultat, on se positionne sur cette ligne
+                if (rset2.first()){
+
+                    //Création d'un objet Personne
+                    PersonneDAO etudiant_dao = new PersonneDAO(connect);
+
+                    //Ajout des etudiants dans l'ecole
+                    ecole.addEtudiants((Etudiant) etudiant_dao.trouver(rset2.getInt("Id_personne")));
+
+                    //Tant qu'il y a un résultat, on ajoute l'etudiant dans la liste des etudiants de notre objet Ecole
+                    while(rset2.next()) 
+                        ecole.addEtudiants((Etudiant) etudiant_dao.trouver(rset2.getInt("Id_personne")));     
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EcoleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    
+        //Retourne l'objet trouvé
+        return ecole;
+    
+    }
+    
+    
     /** trouver : methode permettant de trouver un objet de la table via son id
      * @return  */
     @Override
@@ -160,72 +272,6 @@ public class EcoleDAO extends DAO<Ecole> {
             Logger.getLogger(EcoleDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        try {
-            //Récupération de l'ordre de la requete
-            ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from niveau where Id = (select Id_niveau from classe where Id_ecole =" + id + ")");   
-
-            //Si on a un résultat, on se positionne sur cette ligne
-            if (rset2.first()){
-
-                //Création d'un objet Niveau
-                NiveauDAO niveau_dao = new NiveauDAO(connect);
-
-                //Ajout des niveaux dans l'Ecole
-                ecole.addNiveaux(niveau_dao.trouver(rset2.getInt("Id")));  
-
-                //Tant qu'il y a un résultat, on ajoute le niveau dans la liste de niveaux de notre objet Ecole
-                while(rset2.next()) 
-                    ecole.addNiveaux(niveau_dao.trouver(rset2.getInt("Id")));     
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(EcoleDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try {
-            //Récupération de l'ordre de la requete
-            ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from etudiant where Id_ecole = " + id + ")");   
-
-            //Si on a un résultat, on se positionne sur cette ligne
-            if (rset2.first()){
-
-                //Création d'un objet Personne
-                PersonneDAO etudiant_dao = new PersonneDAO(connect);
-
-                //Ajout des etudiants dans l'ecole
-                ecole.addEtudiants((Etudiant) etudiant_dao.trouver(rset2.getInt("Id")));
-
-                //Tant qu'il y a un résultat, on ajoute l'etudiant dans la liste des etudiants de notre objet Ecole
-                while(rset2.next()) 
-                    ecole.addEtudiants((Etudiant) etudiant_dao.trouver(rset2.getInt("Id")));     
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(EcoleDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try {
-            //Récupération de l'ordre de la requete
-            ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from enseignant where Id_ecole = " + id + ")");   
-
-            //Si on a un résultat, on se positionne sur cette ligne
-            if (rset2.first()){
-
-                //Création d'un objet Personne
-                PersonneDAO enseignant_dao = new PersonneDAO(connect);
-
-                //Ajout des enseignant dans l'ecole
-                ecole.addEnseignants((Enseignant) enseignant_dao.trouver(rset2.getInt("Id")));
-
-                //Tant qu'il y a un résultat, on ajoute l'enseignant dans la liste des etudiants de notre objet Ecole
-                while(rset2.next()) 
-                    ecole.addEtudiants((Etudiant) enseignant_dao.trouver(rset2.getInt("Id")));     
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(EcoleDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
         //Retourne l'objet trouvé
         return ecole;
     

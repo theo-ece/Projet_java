@@ -119,28 +119,38 @@ public class BulletinDAO extends DAO<Bulletin> {
                     champs += ", " + rsetMeta.getColumnLabel(i+1);
                 }
             }
-            
+
             //Récupération de l'ordre de la requete
-            String rqt = "insert into bulletin (" + champs + ") values (" + obj.getAppreciation() + "\');";
+            ResultSet rset1 = connect.getConnexion().createStatement().executeQuery("select * from inscription where id_personne = " + obj.getEtudiant().getID());
+
+            //Récupération de l'ordre de la requete
+            if(rset1.first()){
+                String rqt = "insert into bulletin (" + champs + ") values (" + obj.getTrimestre().getID() + ", " + rset1.getInt("Id") + ", \'" + obj.getAppreciation() + "\');";
+
+                System.out.println(rqt);
+                //Ajout de l'élément dans la table
+                connect.getStatement().executeUpdate(rqt);
+
+                //Retourne vrai
+                return true;
+            }
             
-            //Ajout de l'élément dans la table
-            connect.getStatement().executeUpdate(rqt);
-            
-            //Retourne vrai
-            return true;
-            
+            //Retourne faux
+            return false;
+ 
         } catch (SQLException ex) {
             Logger.getLogger(BulletinDAO.class.getName()).log(Level.SEVERE, null, ex);
             //Retourne faux
             return false;
-        }  
+        }
     }
 
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
+    /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
+     * @param id
      * @return  */
     @Override
-    public Bulletin trouver(int id) {
+    public Bulletin trouver_et_charge(int id) {
         
         //Création d'un objet Bulletin
         Bulletin bulletin = new Bulletin();
@@ -177,6 +187,36 @@ public class BulletinDAO extends DAO<Bulletin> {
                 //Tant qu'il y a un résultat, on ajoute le detail bulletin dans la liste de detail bulletins de notre objet Bulletin
                 while(rset.next()) 
                     bulletin.addDetailsB(detailbulletin_dao.trouver(rset.getInt("Id")));          
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(BulletinDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+        //Retourne l'objet trouvé
+        return bulletin;
+    
+    }
+    
+    
+    /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
+     * @param id
+     * @return  */
+    @Override
+    public Bulletin trouver(int id) {
+        
+        //Création d'un objet Bulletin
+        Bulletin bulletin = new Bulletin();
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from bulletin where id = " + id);
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset.first()){
+                
+                //Création du nouvel objet Bulletin
+                bulletin = new Bulletin(id, rset.getString("Appreciation"));
             }
             
         } catch (SQLException ex) {

@@ -37,6 +37,11 @@ public class DisciplineDAO extends DAO<Discipline> {
         //Déclaration d'un String
         String rqt;
         
+        //Ajout de guillement si element est un Varchar dans la BDD
+        if("Nom".equals(champ)){
+            element = "\'" + element + "\'";
+        }
+        
         //Récupération de l'ordre de la requete
         rqt = "update discipline set " + champ + " = \'" + element + "\' where Id = " + obj.getID() + ";";
 
@@ -131,6 +136,35 @@ public class DisciplineDAO extends DAO<Discipline> {
         }  
     }
 
+    
+    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
+     * @return  */
+    @Override
+    public Discipline trouver_et_charge(int id) {
+        
+        //Création d'un objet Discipline
+        Discipline discipline = new Discipline();
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from discipline where id = " + id); 
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset.first()){
+                
+                //Création du nouvel objet Discipline
+                discipline = new Discipline(id, rset.getString("Nom"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DisciplineDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+        //Retourne l'objet trouvé
+        return discipline;
+    
+    }
+    
     
     /** trouver : methode permettant de trouver un objet de la table via son id
      * @return  */

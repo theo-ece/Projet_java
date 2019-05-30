@@ -121,13 +121,23 @@ public class DetailBulletinDAO extends DAO<DetailBulletin> {
             }
             
             //Récupération de l'ordre de la requete
-            String rqt = "insert into detail_bulletin (" + champs + ") values (\'" + obj.getAppreciation() + "\');";
-            
-            //Ajout de l'élément dans la table
-            connect.getStatement().executeUpdate(rqt);
-            
-            //Retourne vrai
-            return true;
+            ResultSet rset1 = connect.getConnexion().createStatement().executeQuery("select * from enseignement where id_personne = " + obj.getEnseignant().getID());
+
+                //Récupération de l'ordre de la requete
+                if(rset1.first()){
+
+                //Récupération de l'ordre de la requete
+                String rqt = "insert into detail_bulletin (" + champs + ") values (" + obj.getBulletin().getID() + ", " + rset1.getInt("Id") + ", \'" + obj.getAppreciation() + "\');";
+
+                //Ajout de l'élément dans la table
+                connect.getStatement().executeUpdate(rqt);
+
+                //Retourne vrai
+                return true;
+            }
+                            
+            //Retourne faux
+            return false;
             
         } catch (SQLException ex) {
             Logger.getLogger(DetailBulletinDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -137,10 +147,10 @@ public class DetailBulletinDAO extends DAO<DetailBulletin> {
     }
 
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
+    /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
      * @return  */
     @Override
-    public DetailBulletin trouver(int id) {
+    public DetailBulletin trouver_et_charge(int id) {
         
         //Création d'un objet DetailBulletin
         DetailBulletin detail_bulletin = new DetailBulletin();
@@ -183,6 +193,35 @@ public class DetailBulletinDAO extends DAO<DetailBulletin> {
             Logger.getLogger(DetailBulletinDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     
+        //Retourne l'objet trouvé
+        return detail_bulletin;
+    
+    }
+    
+    
+    /** trouver : methode permettant de trouver un objet de la table via son id
+     * @return  */
+    @Override
+    public DetailBulletin trouver(int id) {
+        
+        //Création d'un objet DetailBulletin
+        DetailBulletin detail_bulletin = new DetailBulletin();
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from detail_bulletin where id = " + id);  
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset.first()){
+                
+                //Création du nouvel objet DetailBulletin
+                detail_bulletin = new DetailBulletin(id, rset.getString("Appreciation"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DetailBulletinDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         //Retourne l'objet trouvé
         return detail_bulletin;
     

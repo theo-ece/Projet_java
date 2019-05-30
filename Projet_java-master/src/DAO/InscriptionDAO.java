@@ -6,6 +6,7 @@
 package DAO;
 
 import Connexion.Connexion;
+import Model.Inscription;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,11 +37,6 @@ public class InscriptionDAO extends DAO<Inscription> {
 
         //Déclaration d'un String
         String rqt;
-        
-        //Ajout de guillement si element est une Date dans la BDD
-        if("Date".equals(champ)){
-            element = "\'" + element + "\'";
-        }
 
         //Récupération de l'ordre de la requete
         rqt = "update inscription set " + champ + " = " + element + " where Id = " + obj.getID() + ";";
@@ -121,7 +117,7 @@ public class InscriptionDAO extends DAO<Inscription> {
             }
             
             //Récupération de l'ordre de la requete
-            String rqt = "insert into inscription (" + champs + ") values (" + obj.getID_classe() + ", " + obj.getID_personne() + ", \'" + obj.getDate() + "\');";
+            String rqt = "insert into inscription (" + champs + ") values (" + obj.getClasse().getID() + ", " + obj.getEtudiant().getID() + ");";
             
             //Ajout de l'élément dans la table
             connect.getStatement().executeUpdate(rqt);
@@ -141,36 +137,33 @@ public class InscriptionDAO extends DAO<Inscription> {
      * @return  */
     @Override
     public Inscription trouver(int id) {
+        return null;
+    }
+    
+    /** trouver_et_charge : methode permettant de trouver et de charge dans les donnees un objet de la table via son id
+     * @return  */
+    @Override
+    public Inscription trouver_et_charge(int id) {
         
         //Création d'un objet Inscription
         Inscription inscription = new Inscription();
         
         try {
             //Récupération de l'ordre de la requete
-            ResultSet rset = connect.getStatement().executeQuery("select * from inscription where id = " + id);
-            
-            //Récupération du résultat de l'ordre
-            ResultSetMetaData rsetMeta = rset.getMetaData();    
+            ResultSet rset = connect.getStatement().executeQuery("select * from inscription where id = " + id);   
             
             //Si on a un résultat, on se positionne sur cette ligne
             if (rset.first()){
                 
                 //Création du nouvel objet AnneeScolaire
-                inscription = new Inscription(id, rset.getInt("Id_classe"), rset.getInt("Id_personne"), rset.getDate("Date"));
+                inscription = new Inscription(id);
             }
-            
+                  
         } catch (SQLException ex) {
-            Logger.getLogger(InscriptionDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnneeScolaireDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
         //Retourne l'objet trouvé
         return inscription;
-    
     }
-    
-    
-    /**
-     * @param connect */
-   
-    
 }

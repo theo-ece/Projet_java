@@ -137,6 +137,116 @@ public class PersonneDAO extends DAO<Personne> {
     }
 
     
+    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
+     * @return  */
+    @Override
+    public Personne trouver_et_charge(int id) {
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from personne where id = " + id);    
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset.first()){
+                
+                //Si c'est un enseignant
+                if(rset.getInt("Type") == 1){
+                    
+                    //Création d'un objet Enseignant
+                    Enseignant enseignant = new Enseignant(id, rset.getString("Nom"), rset.getString("Prenom"), rset.getInt("Type"));
+                    
+                    try {
+
+                        //Recherche dans enseignement l' Id_personne correspondant à notre objet Enseignant
+                        ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from enseignement where Id_personne = " + id);
+
+                        //Si on a un résultat, on se positionne sur cette ligne
+                        if (rset2.first()){
+
+                            //Création d'un objet DisciplineDAO
+                            DisciplineDAO discipline_dao = new DisciplineDAO(connect);
+
+                            //Modification de la discipline
+                            enseignant.setDiscipline(discipline_dao.trouver(rset2.getInt("Id_discipline"))); 
+                            
+                            //Création d'un objet ClasseDAO
+                            ClasseDAO classe_dao = new ClasseDAO(connect);
+
+                            //Modification de la Classe
+                            enseignant.setClasse(classe_dao.trouver(rset2.getInt("Id_classe")));
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PersonneDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    try {
+
+                        //Recherche dans etudiant les Id_classe correspondant à notre objet Etudiant
+                        ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from inscription where Id_classe = (select Id_classe from enseignement where Id_personne =" + id + ")");
+
+                        //Si on a un résultat, on se positionne sur cette ligne
+                        if (rset2.first()){
+
+                            //Création d'un objet PersonneDAO
+                            PersonneDAO etudiant_dao = new PersonneDAO(connect);
+
+                            //Ajout d'un étudiant
+                            enseignant.addEtudiants((Etudiant) etudiant_dao.trouver(rset2.getInt("Id_personne")));  
+
+                            //Tant qu'il y a un résultat, on ajoute un l'étudiant dans la liste d'etudiants de notre objet Enseignant
+                            while(rset2.next()) 
+                                enseignant.addEtudiants((Etudiant) etudiant_dao.trouver(rset2.getInt("Id_personne")));  
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PersonneDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    //Retourne l'objet trouvé
+                    return enseignant;
+                
+                //Sinon si c'est un etudiant
+                } else {
+                     
+                    //Création d'un objet Etudiant
+                    Etudiant etudiant = new Etudiant(id, rset.getString("Nom"), rset.getString("Prenom"), rset.getInt("Type"));                       
+                    
+                    try {
+
+                        //Recherche dans enseignement les Id_classe correspondant à notre objet Etudiant
+                        ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from enseignement where Id_classe = (select Id_classe from inscription where Id_personne = " + id + ")");
+
+                        //Si on a un résultat, on se positionne sur cette ligne
+                        if (rset2.first()){
+
+                            //Création d'un objet DisciplineDAO
+                            DisciplineDAO discipline_dao = new DisciplineDAO(connect);
+
+                            //Ajout d'une discipline
+                            etudiant.addDisciplines(discipline_dao.trouver(rset2.getInt("Id_discipline")));  
+
+                            //Tant qu'il y a un résultat, on ajoute la discipline dans la liste de disciplines de notre objet Etudiant
+                            while(rset2.next()) 
+                                etudiant.addDisciplines(discipline_dao.trouver(rset2.getInt("Id_discipline"))); 
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PersonneDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    //Retourne l'objet trouvé
+                    return etudiant;
+                }
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PersonneDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
     /** trouver : methode permettant de trouver un objet de la table via son id
      * @return  */
     @Override
@@ -155,44 +265,6 @@ public class PersonneDAO extends DAO<Personne> {
                     //Création d'un objet Enseignant
                     Enseignant enseignant = new Enseignant(id, rset.getString("Nom"), rset.getString("Prenom"), rset.getInt("Type"));
                     
-                    try {
-
-                        //Recherche dans enseignement l' Id_enseignant correspondant à notre objet Enseignant
-                        ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from enseignement where Id_enseignant = " + id);
-
-                        //Si on a un résultat, on se positionne sur cette ligne
-                        if (rset2.first()){
-
-                            //Création d'un objet DisciplineDAO
-                            DisciplineDAO discipline_dao = new DisciplineDAO(connect);
-
-                            //Modification de la disiciplne
-                            enseignant.setDiscipline(discipline_dao.trouver(rset.getInt("Id_discipline")));            
-                        }
-
-                    } catch (SQLException ex) {
-                        Logger.getLogger(PersonneDAO.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                    try {
-
-                        //Recherche dans enseignement l' Id_enseignant correspondant à notre objet Enseignant
-                        ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from enseignement where Id_enseignant = " + id);
-
-                        //Si on a un résultat, on se positionne sur cette ligne
-                        if (rset2.first()){
-
-                            //Création d'un objet ClasseDAO
-                            ClasseDAO classe_dao = new ClasseDAO(connect);
-
-                            //Modification de la Classe
-                            enseignant.setClasse(classe_dao.trouver(rset.getInt("Id_classe")));            
-                        }
-
-                    } catch (SQLException ex) {
-                        Logger.getLogger(PersonneDAO.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
                     //Retourne l'objet trouvé
                     return enseignant;
                 
@@ -200,45 +272,7 @@ public class PersonneDAO extends DAO<Personne> {
                 } else {
                      
                     //Création d'un objet Etudiant
-                    Etudiant etudiant = new Etudiant(id, rset.getString("Nom"), rset.getString("Prenom"), rset.getInt("Type"));
-                                        
-                    try {
-
-                        //Recherche dans classe les Id_classe correspondant à notre objet Etudiant
-                        ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from classe where Id = (select Id_classe from etudiant where Id = " + id + ")");
-
-                        //Si on a un résultat, on se positionne sur cette ligne
-                        if (rset.first()){
-
-                            //Création d'un objet ClasseDAO
-                            ClasseDAO classe_DAO = new ClasseDAO(connect);
-
-                            //Modification de la Classe
-                            etudiant.setClasse(classe_DAO.trouver(rset.getInt("Id")));         
-                        }
-
-                    } catch (SQLException ex) {
-                        Logger.getLogger(PersonneDAO.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                    try {
-
-                        //Recherche dans classe les Id_niveau correspondant à notre objet Etudiant
-                        ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from niveau where Id = (select Id_niveau from etudiant where Id =" + id + ")");
-
-                        //Si on a un résultat, on se positionne sur cette ligne
-                        if (rset.first()){
-
-                            //Création d'un objet NiveauDAO
-                            NiveauDAO niveau_DAO = new NiveauDAO(connect);
-
-                            //Modification du Niveau
-                            etudiant.setNiveau(niveau_DAO.trouver(rset.getInt("Id")));         
-                        }
-
-                    } catch (SQLException ex) {
-                        Logger.getLogger(PersonneDAO.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    Etudiant etudiant = new Etudiant(id, rset.getString("Nom"), rset.getString("Prenom"), rset.getInt("Type"));                       
                     
                     //Retourne l'objet trouvé
                     return etudiant;

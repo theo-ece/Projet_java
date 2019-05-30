@@ -15,13 +15,14 @@ public class DataIncorrecte extends Exception {
     /** Attribut prive msg */
     private final String msg;
     
+    
     /** Constructeur surcharge avec un seul parametre msg
      * @param msg */
     public DataIncorrecte(String msg){
         this.msg = msg;
     }
     
-    /**
+    /** getMsg : permettant d acceder a l attribut msg 
      * @return  */
     public String getMsg(){
         return msg;

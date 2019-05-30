@@ -8,6 +8,7 @@ package DAO;
 import Connexion.Connexion;
 import Model.Trimestre;
 import java.sql.*;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -120,6 +121,14 @@ public class TrimestreDAO extends DAO<Trimestre> {
                 }
             }
             
+            //Récupération des annees
+            Calendar c = Calendar.getInstance();
+            c.setTime(obj.getDebut());
+            System.out.println(c);
+            
+            //Récupération de l'ordre de la requete
+            ResultSet rset1 = connect.getConnexion().createStatement().executeQuery("select * from anneescolaire");
+            
             //Récupération de l'ordre de la requete
             String rqt = "insert into trimestre (" + champs + ") values (" + obj.getNumero() + ", \'" + obj.getDebut() + "\', \'" + obj.getFin() + ");";           
             
@@ -137,10 +146,10 @@ public class TrimestreDAO extends DAO<Trimestre> {
     }
 
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
+    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
      * @return  */
     @Override
-    public Trimestre trouver(int id) {
+    public Trimestre trouver_et_charge(int id) {
         
         //Création d'un objet Trimestre
         Trimestre trimestre = new Trimestre();
@@ -183,6 +192,35 @@ public class TrimestreDAO extends DAO<Trimestre> {
             Logger.getLogger(TrimestreDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     
+        //Retourne l'objet trouvé
+        return trimestre;
+    
+    }
+    
+    
+     /** trouver : methode permettant de trouver un objet de la table via son id
+     * @return  */
+    @Override
+    public Trimestre trouver(int id) {
+        
+        //Création d'un objet Trimestre
+        Trimestre trimestre = new Trimestre();
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from trimestre where id = " + id);
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset.first()){
+                
+                //Création du nouvel objet Trimestre
+                trimestre = new Trimestre(id, rset.getInt("Numero"), rset.getDate("Debut"), rset.getDate("Fin"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(TrimestreDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
         //Retourne l'objet trouvé
         return trimestre;
     

@@ -5,6 +5,8 @@
  */
 package projet;
 import Connexion.Connexion;
+import Connexion.DataIncorrecte;
+import DAO.*;
 import Model.*;
 import java.sql.SQLException;
 import java.util.*;
@@ -28,28 +30,47 @@ public class Projet {
         
         //Création d'objets Scanner
         Scanner sc = new Scanner(System.in);
+        Scanner cl = new Scanner(System.in);
                     
         //Saisie par l'utilisateur du mot de passe
-        System.out.print("Mot de passe: ");
-        mdp = sc.nextLine();
-        
-        //Saisie par l'utilisateur du mot de passe
+        System.out.println("*** CONNEXION A LA BDD JAVA ***");
         System.out.print("Localhost: ");
         localhost = sc.nextInt();
         
+        //Saisie par l'utilisateur du mot de passe
+        System.out.print("Mot de passe: ");
+        mdp = cl.nextLine();
+
         //Création d'un objet Connexion
         Connexion connect;
         
         try {
-            //Création d'un objet Connexion
-            connect = new Connexion(mdp,localhost);
-            
-            // TODO code application logic here
-            Ecole ECE = new Ecole("str", connect);
-            ECE.run();
- 
-            
-            
+            try {
+                //Création d'un objet Connexion
+                connect = new Connexion(mdp,localhost);
+                
+                //Création d'un objet Chargement
+                Chargement charge = new Chargement(connect);
+                charge.chargementTrimestres();
+                charge.chargementEvaluations();
+                charge.chargementDetailsBulletins();
+                charge.chargementBulletins();
+                charge.chargementDisciplines();
+                charge.chargementAnneeScolaires();
+                charge.chargementPersonnes();
+                charge.chargementClasses();
+                charge.chargementNiveaux();
+                charge.chargementEnseignement();
+                charge.chargementInscription();
+                charge.chargementEcoles();
+
+                // TODO code application logic here
+                //Ecole ECE = new Ecole("str", connect);
+                //ECE.run();
+                
+            } catch (DataIncorrecte di) {
+                System.out.println(di.getMsg());
+            }
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Projet.class.getName()).log(Level.SEVERE, null, ex);

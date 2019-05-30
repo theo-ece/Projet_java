@@ -6,7 +6,7 @@
 package DAO;
 
 import Connexion.Connexion;
-import Model.Niveau;
+import Model.Enseignement;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,11 +15,11 @@ import java.util.logging.Logger;
  *
  * @author Flora
  */
-public class NiveauDAO extends DAO<Niveau> {
+public class EnseignementDAO extends DAO<Enseignement> {
     
     /** Construsteur surcharge avec un seul parametre connect
      * @param connect */
-    public NiveauDAO(Connexion connect) {
+    public EnseignementDAO(Connexion connect) {
         
         //Appel du constructeur par défaut de la classe mère
         super(connect);
@@ -32,18 +32,18 @@ public class NiveauDAO extends DAO<Niveau> {
      * @param element
      * @return  */
     @Override
-    public boolean modifier(Niveau obj, String champ, String element) {
+    public boolean modifier(Enseignement obj, String champ, String element) {
 
         //Déclaration d'un String
         String rqt;
         
-        //Ajout de guillement si element est un Varchar dans la BDD
-        if("Nom".equals(champ)){
+        //Ajout de guillement si element est une Date dans la BDD
+        if("Date".equals(champ)){
             element = "\'" + element + "\'";
         }
 
         //Récupération de l'ordre de la requete
-        rqt = "update niveau set " + champ + " = \'" + element + "\' where Id = " + obj.getID() + ";";
+        rqt = "update enseignement set " + champ + " = " + element + " where Id = " + obj.getID() + ";";
 
         try {
             //Suppression de l'élément de la table
@@ -53,7 +53,7 @@ public class NiveauDAO extends DAO<Niveau> {
             return true;
             
         } catch (SQLException ex) {
-            Logger.getLogger(NiveauDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EnseignementDAO.class.getName()).log(Level.SEVERE, null, ex);
             //Retourne faux
             return false;
         }
@@ -65,13 +65,13 @@ public class NiveauDAO extends DAO<Niveau> {
      * @param obj
      * @return  */
     @Override
-    public boolean supprimer(Niveau obj) {
+    public boolean supprimer(Enseignement obj) {
         
         //Déclaration d'un String
         String rqt;
         
         //Récupération de l'ordre de la requete
-        rqt = "delete from niveau where Id = " + obj.getID() + ";";
+        rqt = "delete from enseignement where Id_personne = " + obj.getID() + ";";
         
         try {
             //Suppression de l'élément de la table
@@ -81,7 +81,7 @@ public class NiveauDAO extends DAO<Niveau> {
             return true;
             
         } catch (SQLException ex) {
-            Logger.getLogger(NiveauDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EnseignementDAO.class.getName()).log(Level.SEVERE, null, ex);
             //Retourne faux
             return false;
         }
@@ -91,14 +91,14 @@ public class NiveauDAO extends DAO<Niveau> {
     /** ajouter : methode permettant d ajouter un nouvel objet dans la table
      * @return  */
     @Override
-    public boolean ajouter(Niveau obj) {
+    public boolean ajouter(Enseignement obj) {
         
         //Création d'un objet ResultSet
         ResultSet rset;
         
         try {
             //Récupération de l'ordre de la requete
-            rset = connect.getStatement().executeQuery("select * from niveau");
+            rset = connect.getStatement().executeQuery("select * from enseignement");
             
             //Récupération du résultat de l'ordre
             ResultSetMetaData rsetMeta = rset.getMetaData();
@@ -121,7 +121,7 @@ public class NiveauDAO extends DAO<Niveau> {
             }
             
             //Récupération de l'ordre de la requete
-            String rqt = "insert into niveau (" + champs + ") values (\'" + obj.getNom() + "\');";
+            String rqt = "insert into inscription (" + champs + ") values (" + obj.getClasse().getID() + ", " + obj.getDiscipline().getID() + ", " + obj.getEnseignant().getID() + ");";
             
             //Ajout de l'élément dans la table
             connect.getStatement().executeUpdate(rqt);
@@ -130,91 +130,46 @@ public class NiveauDAO extends DAO<Niveau> {
             return true;
             
         } catch (SQLException ex) {
-            Logger.getLogger(NiveauDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EnseignementDAO.class.getName()).log(Level.SEVERE, null, ex);
             //Retourne faux
             return false;
         }  
     }
 
     
-    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
-     * @return  */
-    @Override
-    public Niveau trouver_et_charge(int id) {
-        
-        //Création d'un objet Niveau
-        Niveau niveau = new Niveau();
-        
-        try {
-            //Récupération de l'ordre de la requete
-            ResultSet rset = connect.getStatement().executeQuery("select * from niveau where id = " + id);   
-            
-            //Si on a un résultat, on se positionne sur cette ligne
-            if (rset.first()){
-                
-                //Création du nouvel objet Niveau
-                niveau = new Niveau(id, rset.getString("Nom"));
-                
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(NiveauDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try {
-            //Récupération de l'ordre de la requete
-            ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from classe where id_niveau = " + id);   
-
-            //Si on a un résultat, on se positionne sur cette ligne
-            if (rset2.first()){
-
-                //Création d'un objet Classe
-                ClasseDAO classe_dao = new ClasseDAO(connect);
-
-                //Ajout des classes dans le Niveau
-                niveau.addClasses(classe_dao.trouver(rset2.getInt("Id")));  
-
-                //Tant qu'il y a un résultat, on ajoute la classe dans la liste de classes de notre objet Niveau
-                while(rset2.next()) 
-                    niveau.addClasses(classe_dao.trouver(rset2.getInt("Id")));     
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(NiveauDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
-        //Retourne l'objet trouvé
-        return niveau;
-    
-    }
-    
-    
     /** trouver : methode permettant de trouver un objet de la table via son id
      * @return  */
     @Override
-    public Niveau trouver(int id) {
+    public Enseignement trouver(int id) {
+        return null;
+    }
+    
+    
+    /** trouver_et_charge : methode permettant de trouver et de charge dans les donnees un objet de la table via son id
+     * @return  */
+    @Override
+    public Enseignement trouver_et_charge(int id) {
         
-        //Création d'un objet Niveau
-        Niveau niveau = new Niveau();
+        //Création d'un objet Inscription
+        Enseignement enseignement = new Enseignement();
         
         try {
             //Récupération de l'ordre de la requete
-            ResultSet rset = connect.getStatement().executeQuery("select * from niveau where id = " + id);   
+            ResultSet rset = connect.getStatement().executeQuery("select * from enseignement where id = " + id);   
             
             //Si on a un résultat, on se positionne sur cette ligne
             if (rset.first()){
                 
-                //Création du nouvel objet Niveau
-                niveau = new Niveau(id, rset.getString("Nom"));
-                
+                //Création du nouvel objet AnneeScolaire
+                enseignement = new Enseignement(id);
             }
-            
+                  
         } catch (SQLException ex) {
-            Logger.getLogger(NiveauDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EnseignementDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         //Retourne l'objet trouvé
-        return niveau;
-    
+        return enseignement;
     }
+    
 }

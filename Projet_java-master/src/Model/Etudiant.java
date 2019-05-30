@@ -5,6 +5,8 @@
  */
 package Model;
 
+import Connexion.Connexion;
+import DAO.PersonneDAO;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,37 +16,42 @@ import java.util.Scanner;
  */
 public class Etudiant extends Personne{
     
-    private Niveau niveau;
-    private Classe classe;
+    /** Attribut prive de la classe : disciplines */
     private ArrayList<Discipline> disciplines;
     
-    // Creation nouvelle personne
+    
+    /** Constructeur par defaut */
+    public Etudiant(){
+        super(0, "", "", 0);
+        disciplines = null;
+    }
+    
+    /** Constructeur surcharge avec quatre parametres : ID, Nom, Prenom et type
+     * @param ID
+     * @param Nom
+     * @param Prenom
+     * @param type */
     public Etudiant(int ID, String Nom, String Prenom, int type){
         super(ID, Nom, Prenom, type);
-        niveau = null;
-        classe = null;
     }
     
-    public Niveau getNiveau(){
-        return niveau;
+    /** Constructeur surcharge avec trois parametres : Nom, Prenom et type
+     * @param Nom
+     * @param Prenom
+     * @param type */
+    public Etudiant(String Nom, String Prenom, int type){
+        super(0, Nom, Prenom, type);
     }
     
-    public Classe getClasse(){
-        return classe;
-    }
     
-    public void setNiveau(Niveau niveau){
-        this.niveau = niveau;
-    }
-    
-    public void setClasse(Classe classe){
-        this.classe = classe;
-    }
-    
+    /** getDisciplines : permettant d acceder a l attribut discipplines
+     * @return  */
     public ArrayList<Discipline> getDisciplines(){
         return disciplines;
     }
     
+    /** addDisciplines : permettant d ajouter une discipline a l attribut disciplines
+     * @param d */
     public void addDisciplines(Discipline d){
         if(disciplines == null)
             disciplines = new ArrayList<>();
@@ -52,8 +59,20 @@ public class Etudiant extends Personne{
         disciplines.add(d);
     }
     
+    /** removeAllDisciplines : permettant de supprimer toutes les disciplines de l attribut disciplines */
     public void removeAllDisciplines(){
         disciplines.clear();
+    }
+    
+    /** ajoutEtudiant : methode permettant d ajouter un etudiant
+     * @param connect */
+    public void ajoutEtudiant(Connexion connect){
+        
+        //Création d'un objet PersonneDAO
+        PersonneDAO etudiant_dao = new PersonneDAO(connect);
+        
+        //Appel de la fonction d'ajout
+        etudiant_dao.ajouter(this);
     }
     
     /*
@@ -86,9 +105,5 @@ public class Etudiant extends Personne{
         }while(!"exit".equals(str));
     }
     */
-    
-    public void inscription(){ //Remplace la table INSCRIPTION
-        
-    }
     
 }

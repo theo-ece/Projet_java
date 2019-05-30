@@ -13,6 +13,7 @@ public class Personne {
     
     protected String path;
     
+    /** Attributs prives de la classe : iD, nom, prenom et type */
     protected int iD;
     protected String nom;
     protected String prenom;
@@ -20,6 +21,7 @@ public class Personne {
     
     //protected HashMap<Integer, Classe> classes;
     
+    /** Constructeur par defaut */
     public Personne(){
         iD = 0;
         nom = "";
@@ -27,6 +29,11 @@ public class Personne {
         type = 0;
     }
     
+    /** Constructeur surcharge avec quatre parametres: ID, nom, prenom et type
+     * @param ID
+     * @param nom
+     * @param prenom
+     * @param type */
     public Personne(int ID, String nom, String prenom, int type){
         iD = ID;
         this.nom = nom;
@@ -34,18 +41,37 @@ public class Personne {
         this.type = type;
     }
     
+    /** Constructeur surcharge avec trois parametres: nom, prenom et type
+     * @param nom
+     * @param prenom
+     * @param type */
+    public Personne(String nom, String prenom, int type){
+        iD = 0;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.type = type;
+    }
+    
+    /** getID : permettant d acceder a l attribut ID
+     * @return  */
     public int getID(){
         return iD;
     }
     
+    /** getNom : permettant d acceder a l attribut nom
+     * @return  */
     public String getNom(){
         return nom;
     }
     
+    /** getPrenom : permettant d acceder a l attribut prenom
+     * @return  */
     public String getPrenom(){
         return prenom;
     }
     
+    /** getType : permettant d acceder a l attribut type
+     * @return  */
     public int getType(){
         return type;
     }

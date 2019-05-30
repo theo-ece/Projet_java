@@ -24,24 +24,29 @@ public abstract class DAO<T> {
         this.connect = connect;
     }
     
-    /**
+    /** modifier : methode permettant de modifier une ligne de la table 
      * @param obj
      * @param champ
      * @param element
      * @return  */
     public abstract boolean modifier(T obj, String champ, String element);
 
-    /**
+    /** supprimer : methode permettant de modifier une ligne de la table
      * @param obj
      * @return  */
     public abstract boolean supprimer(T obj);
 
-    /**
+    /** ajouter : methode permettant d ajouter une ligne dans la table
      * @param obj
      * @return  */
     public abstract boolean ajouter(T obj);
 
-    /**
+    /** methode permettant de trouver et d ajouter dans les donnees une ligne de la table
+     * @param id
+     * @return  */
+    public abstract T trouver_et_charge(int id);
+    
+    /** methode permettant de trouver une ligne de la table
      * @param id
      * @return  */
     public abstract T trouver(int id);

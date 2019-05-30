@@ -71,18 +71,14 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire> {
         
         //Déclaration d'un String
         String rqt;
-        
+
         //Récupération de l'ordre de la requete
-        rqt = "delete from trimestre where Id_annee = " + obj.getID() + ";";
-        
+        rqt = "delete from anneescolaire where Id = " + obj.getID() + ";";
+            
         try {
+            
             //Suppression de l'élément de la table
             connect.getStatement().executeUpdate(rqt);
-            
-            rqt = "delete from anneescolaire where Id = " + obj.getID() + ";";
-            
-            //Suppression de l'élément de la table
-            connect.getConnexion().createStatement().executeUpdate(rqt);
             
             //Retourne vrai
             return true;
@@ -144,10 +140,11 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire> {
     }
 
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
+    /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
+     * @param id
      * @return  */
     @Override
-    public AnneeScolaire trouver(int id) {
+    public AnneeScolaire trouver_et_charge(int id) {
         
         //Création d'un objet AnneeScolaire
         AnneeScolaire anneescolaire = new AnneeScolaire();
@@ -213,6 +210,35 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire> {
             Logger.getLogger(AnneeScolaireDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
  
+        //Retourne l'objet trouvé
+        return anneescolaire;
+    
+    }
+    
+    
+    /** trouver : methode permettant de trouver un objet de la table via son id
+     * @return  */
+    @Override
+    public AnneeScolaire trouver(int id) {
+        
+        //Création d'un objet AnneeScolaire
+        AnneeScolaire anneescolaire = new AnneeScolaire();
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from anneescolaire where id = " + id);   
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset.first()){
+                
+                //Création du nouvel objet AnneeScolaire
+                anneescolaire = new AnneeScolaire(id, rset.getString("date"));
+            }
+                  
+        } catch (SQLException ex) {
+            Logger.getLogger(AnneeScolaireDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         //Retourne l'objet trouvé
         return anneescolaire;
     

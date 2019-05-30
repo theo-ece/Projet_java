@@ -6,6 +6,7 @@
 package Model;
 import Connexion.Connexion;
 import DAO.*;
+import Model.*;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
@@ -17,18 +18,22 @@ import java.util.logging.Logger;
  */
 public class Ecole {
     
+    
     private final String path;
     
+    /** Attributs prives de la classe ID, nom, region, etudiants, enseignants et niveaux */
     private int ID;
     private String nom;
     private String region;
-    
-    private Connexion connect;
-    
     protected HashMap<Integer, Etudiant> etudiants;
     protected HashMap<Integer, Enseignant> enseignants;
     protected ArrayList<Niveau> niveaux;
     
+    // Attribut connect
+    Connexion connect;
+    
+    
+    /** Constructeur par defaut */
     public Ecole(){
         path = "";
         connect = null;
@@ -37,6 +42,10 @@ public class Ecole {
         region = "";
     }
     
+    /** Constructeur surchage avec trois parametres ID, nom et region
+     * @param ID
+     * @param nom
+     * @param region */
     public Ecole(int ID, String nom, String region){
         path = "";
         this.ID = ID;
@@ -45,22 +54,43 @@ public class Ecole {
         connect = null;
     }
     
+    /** Constructeur surchage avec deux parametres nom et region
+     * @param nom
+     * @param region */
+    public Ecole(String nom, String region){
+        path = "";
+        ID = 0;
+        this.nom = nom;
+        this.region = region;
+        connect = null;
+    }
+    
+    /** getID : permettant d acceder a l attribut ID
+     * @return  */
     public int getID(){
         return ID;
     }
     
+    /** getNom : permettant d acceder a l attribut nom
+     * @return  */
     public String getNom(){
         return nom;
     }
     
+    /** getRegion : permettant d acceder a l attribut region
+     * @return  */
     public String getRegion(){
         return region;
     }
     
+    /** getNiveaux : permettant d acceder a l attribut niveaux
+     * @return  */
     public ArrayList<Niveau> getNiveaux(){
         return niveaux;
     }
     
+    /** addNiveaux : permettant d ajouter un niveau a l attribut niveaux
+     * @param n */
     public void addNiveaux(Niveau n){
         if(niveaux == null)
             niveaux = new ArrayList<>();
@@ -68,14 +98,19 @@ public class Ecole {
         niveaux.add(n);
     }
     
+    /** removeAllNiveaux : permettant de supprimer toutes les niveaux de l attribut niveaux */
     public void removeAllNiveaux(){
         niveaux.clear();
     }
     
+    /** getEtudiants : permettant d acceder a l attribut etudiants
+     * @return  */
     public HashMap<Integer, Etudiant> getEtudiants(){
         return etudiants;
     }
     
+    /** addEtudiants : permettant d ajouter un etudiant a l attribut etudiants
+     * @param e */
     public void addEtudiants(Etudiant e){
         if(etudiants == null)
             etudiants = new HashMap<>();
@@ -83,14 +118,19 @@ public class Ecole {
         etudiants.put(e.getID(), e);
     }
     
+    /** removeAllEtudiats : permettant de supprimer tous les etudiants de l attribut etudiants */
     public void removeAllEtudiants(){
         etudiants.clear();
     }
     
+    /** getEnseignants : permettant d acceder a l attribut enseignements
+     * @return  */
     public HashMap<Integer, Enseignant> getEnseignants(){
         return enseignants;
     }
     
+    /** addEnseignants : permettant d ajouter un enseignant a l attribut enseignants
+     * @param e */
     public void addEnseignants(Enseignant e){
         if(enseignants == null)
             enseignants = new HashMap<>();
@@ -98,25 +138,33 @@ public class Ecole {
         enseignants.put(e.getID(), e);
     }
     
+    /** removeAllEnseignants : permettant de supprimer tous les enseignements de l attribut enseignements */
     public void removeAllEnseignants(){
         enseignants.clear();
     }
     
+    /** setConnexion : permettant de modifier l attribut connect
+     * @param connect  */
+    public void setConnexion(Connexion connect){
+        this.connect = connect;
+    }
     
-    public Ecole(String path, Connexion connect){
+    /** ajoutEcole : methode permettant d ajouter une ecole
+     * @param connect */
+    public void ajoutEcole(Connexion connect){
+        
+        //Création d'un objet EcoleDAO
+        EcoleDAO ecole_dao = new EcoleDAO(connect);
+        
+        //Appel de la fonction d'ajout
+        ecole_dao.ajouter(this);
+    }
+    
+    
+    public Ecole(String path){
         this.path=path;
-        showEcole();
-        chargementTrimestres(connect);
-        chargementEvaluations(connect);
-        chargementDetailsBulletins(connect);
-        chargementBulletins(connect);
-        chargementDisciplines(connect);
-        chargementAnneeScolaires(connect);
-        //chargementPersonnes(connect);
-        chargementClasses(connect);
-        chargementNiveaux(connect);
-        chargementEcoles(connect);
-    }  
+        //showEcole(); 
+    }  /*
     // Main de Ecole
     public void run(){
         String str="";
@@ -245,8 +293,8 @@ public class Ecole {
         */
         //_setNom(Name);
         //_setID(id);        
-    }   // A faire
-    
+    //}   // A faire
+    /*
     public void showEtudiants(){
         String str="";
         etudiants.keySet().forEach((key) -> {
@@ -292,7 +340,7 @@ public class Ecole {
     public void showNiveaux(){
         /*niveaux.keySet().forEach((key) -> {
             System.out.println(" Niveaux -> ["+ key + "] : " + niveaux.get(key));
-        });*/
+        });*//*
         String str="";
         do{
             str="";
@@ -314,7 +362,7 @@ public class Ecole {
         /*classes.keySet().forEach((key) -> {
             System.out.println("Classe -> ["+ key + "] : " + classes.get(key));
         });*/
-        String str="";
+       /* String str="";
         do{
             str="";
             System.out.println("ID a modifier :");
@@ -330,12 +378,12 @@ public class Ecole {
                 //classes.get(Integer.valueOf(str)).run(path, Integer.valueOf(str));
             }//
         }while(!"exit".equals(str));
-    } 
-    public void showDisciplines(){
+    } */
+    //public void showDisciplines(){
         /*for (Integer key : Disciplines.keySet()) {
             System.out.println(" Disciplines -> ["+ key + "] : " + Disciplines.get(key));
         }*/
-        String str="";
+      /*  String str="";
         do{
             str="";
             System.out.println("ID a modifier :");
@@ -351,7 +399,7 @@ public class Ecole {
                 //Disciplines.get(Integer.valueOf(str)).run();
             }
         }while(!"exit".equals(str));
-    }
+    }*/
     
     // Fonctions de recherche dans la map (done)
     /*** UTILISER LES FONCTIONS DAO TROUVER
@@ -360,7 +408,8 @@ public class Ecole {
      * @param key
      * @throws HashInexistant
      * @throws HashExistant 
-     */
+     *
+     * */
     public void recherche_etudiant(String key) throws HashInexistant, HashExistant{
         try{
             //etudiants.get(Integer.valueOf(key)).test();
@@ -381,13 +430,13 @@ public class Ecole {
     }
     public void recherche_niveau(String key) throws  HashInexistant, HashExistant{  
         try{
-            enseignants.get(Integer.valueOf(key)).test();
+            //enseignants.get(Integer.valueOf(key)).test();
             throw new HashExistant();
         }
         catch(NullPointerException e){
             throw new HashInexistant("Niveau " + key + " non existant");
         }
-    }
+    }/*
     public void recherche_classe(String key) throws HashExistant, HashInexistant{    // question 1.3
         try{
             classes.get(Integer.valueOf(key)).test();
@@ -405,28 +454,36 @@ public class Ecole {
         catch(NullPointerException e){
             throw new HashInexistant("Niveau " + key + " non existant");
         }
-    }
+    }*/
     
     // Fonction d'ajout
     
-    public void ajout_new_classe(){
+    public void ajout_new_classe(){ 
         
     }
     public void ajout_new_etudiant(){
+        //BDD
+        PersonneDAO etudiant_dao = new PersonneDAO(connect);
+        //etudiant_dao.ajouter(/*Nouvel Etudiant*/);
         
     }
     public void ajout_new_discipline(){
         
     }
     public void ajout_new_enseignant(){
-        
+        //BDD
+        PersonneDAO enseignant_dao = new PersonneDAO(connect);
+        //etudiant_dao.ajouter(/*Nouvel Enseignant*/);
     }
     public void ajout_new_niveau(){
+        //BDD
+        NiveauDAO niveau_dao = new NiveauDAO(connect);
+        //niveau_dao.ajouter(/*Nouveau Niveau*/);
         
     }
     
     // Fonction de suppression
-    public void erase_classe(){
+    /*public void erase_classe(){
         String key="";
         System.out.println("ID de la Classe a supprimer : ");
         Scanner sc = new Scanner(System.in);
@@ -438,7 +495,7 @@ public class Ecole {
         }catch(HashExistant e){
             classes.remove(Integer.valueOf(key));
         }
-    }               // + modif BDD à faire & graph
+    }  */             // + modif BDD à faire & graph
     public void erase_etudiant(){
         String key="";
         System.out.println("ID de la Classe a supprimer : ");
@@ -449,10 +506,16 @@ public class Ecole {
         }catch(HashInexistant e){
             System.out.println("La classe n'existe pas.");
         }catch(HashExistant e){
-            etudiants.remove(Integer.valueOf(key));
             // A supprimer dans BDD
+            PersonneDAO etudiant_dao = new PersonneDAO(connect);
+            etudiant_dao.supprimer(etudiant_dao.trouver(Integer.valueOf(key)));
+            
+            etudiants.remove(Integer.valueOf(key));
+            
         }
     }             // + modif BDD à faire / Graphique
+    
+    /*
     public void erase_discipline(){
         String key="";
         System.out.println("ID de la discipline a supprimer : ");
@@ -466,7 +529,7 @@ public class Ecole {
             Disciplines.remove(Integer.valueOf(key));
             // A supprimer dans BDD
         }
-    }           // + modif BDD à faire / Graphique    
+    }        */   // + modif BDD à faire / Graphique    
     public void erase_niveau(){
         String key="";
         System.out.println("ID du niveau a supprimer : ");
@@ -477,8 +540,11 @@ public class Ecole {
         }catch(HashInexistant e){
             System.out.println("Le niveau n'existe pas.");
         }catch(HashExistant e){
-            niveaux.remove(Integer.valueOf(key));
             // A supprimer dans BDD
+            NiveauDAO niveau_dao = new NiveauDAO(connect);
+            niveau_dao.supprimer(niveau_dao.trouver(Integer.valueOf(key)));
+            
+            niveaux.remove(Integer.valueOf(key));
         }
     }               // + modif BDD à faire / Graphique 
     public void erase_enseignant(){
@@ -491,8 +557,12 @@ public class Ecole {
         }catch(HashInexistant e){
             System.out.println("Le prof n'existe pas.");
         }catch(HashExistant e){
-            enseignants.remove(Integer.valueOf(key));
             // A supprimer dans BDD
+            PersonneDAO enseignant_dao = new PersonneDAO(connect);
+            enseignant_dao.supprimer(enseignant_dao.trouver(Integer.valueOf(key)));
+            
+            enseignants.remove(Integer.valueOf(key));
+            
         }
     }           // + modif BDD à faire / Graphique 
     
@@ -505,280 +575,6 @@ public class Ecole {
     public Niveau import_Niveau(int key){return new Niveau(key);}
     
     */
-    
-    // Fonctions de Chargement
-    /** chargementPersonnes : methode permettant de charger les elements Enseignant et Etudiant
-     * @param connect */
-    public void chargementPersonnes(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<Personne> personne_dao = new PersonneDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"personne");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                Personne personne = personne_dao.trouver(liste_Id.get(i));
-                
-                //Si c'est un Enseignant, alors création d'un Enseignant
-                if(personne.getType() == 1){
-                    Enseignant enseignant = (Enseignant) personne;
-                    
-                } else { 
-                    //Sinon si c'est un Etudiant, alors création d'un Etudiant
-                    Etudiant etudiant = (Etudiant) personne;
-                }
-                
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    /** chargementNiveaux : methode permettant de charger les elements Niveaux
-     * @param connect */
-    public void chargementNiveaux(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<Niveau> niveau_dao = new NiveauDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"niveau");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                Niveau niveau = niveau_dao.trouver(liste_Id.get(i));     
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }    
-    
-    /** chargementAnneeScolaires : methode permettant de charger les elements AnneeScolaire
-     * @param connect */
-    public void chargementAnneeScolaires(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<AnneeScolaire> annee_scolaire_dao = new AnneeScolaireDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"anneescolaire");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                AnneeScolaire annee_scolaire = annee_scolaire_dao.trouver(liste_Id.get(i));
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    } 
-    
-    /** chargementClasses : methode permettant de charger les elements Classe
-     * @param connect */
-    public void chargementClasses(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<Classe> classe_dao = new ClasseDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"classe");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                Classe classe = classe_dao.trouver(liste_Id.get(i));
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    /** chargementEvaluations : methode permettant de charger les elements Evaluations
-     * @param connect */
-    public void chargementEvaluations(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<Evaluation> evaluation_dao = new EvaluationDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"evaluation");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                Evaluation evaluation = evaluation_dao.trouver(liste_Id.get(i));
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    /** chargementDisciplines : methode permettant de charger les elements Discipline
-     * @param connect */
-    public void chargementDisciplines(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<Discipline> discipline_dao = new DisciplineDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"discipline");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                Discipline discipline = discipline_dao.trouver(liste_Id.get(i));
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }       
-    }
-    
-    /** chargementTrimestres : methode permettant de charger les elements Trimestre
-     * @param connect */
-    public void chargementTrimestres(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<Trimestre> trimestre_dao = new TrimestreDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"trimestre");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                Trimestre trimestre = trimestre_dao.trouver(liste_Id.get(i));
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }       
-    }
-    
-    /** chargementBulletins : methode permettant de charger les elements Bulletin
-     * @param connect */
-    public void chargementBulletins(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<Bulletin> bulletin_dao = new BulletinDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"bulletin");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                Bulletin bulletin = bulletin_dao.trouver(liste_Id.get(i));
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }       
-    }
-    
-    /** chargementDetailsBulletins : methode permettant de charger les elements DetailsBulletin
-     * @param connect */
-    public void chargementDetailsBulletins(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<DetailBulletin> detail_bulletin_dao = new DetailBulletinDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"detail_bulletin");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                DetailBulletin detail_bulletin = detail_bulletin_dao.trouver(liste_Id.get(i));
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }       
-    }
-    
-    /** chargementEcole : methode permettant de charger les elements Ecole
-     * @param connect */
-    public void chargementEcoles(Connexion connect){
-        
-        //Création d'un objet Objet DAO
-        DAO<Ecole> ecole_dao = new EcoleDAO(connect);
-        
-        //Création d'un ArrayList contenant tous les Id de la table
-        ArrayList<Integer> liste_Id;
-        
-        try {
-            //Chargement de la liste des ID dans l'ArrayList
-            liste_Id = Chargement.charger(connect,"ecole");
-                    
-            //Pour toute la liste
-            for(int i=0; i<liste_Id.size(); i++){
-                
-                //Création d'un Objet
-                Ecole ecole = ecole_dao.trouver(liste_Id.get(i));
-                /*if(ecole.getNiveaux() != null)
-                    for(Map.Entry map : ecole.getNiveaux().entrySet())
-                        System.out.println("ID : " + ecole.getID() + " Niveau : " + map.getValue());*/
-            }
-        
-        } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-        }       
-    }
     
     // Setters
     private void _setID(int a){

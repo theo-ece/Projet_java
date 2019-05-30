@@ -26,8 +26,9 @@ public class Connexion {
      * @param password
      * @param localhost
      * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException */
-    public Connexion(String password, int localhost) throws ClassNotFoundException, SQLException {
+     * @throws java.sql.SQLException
+     * @throws Connexion.DataIncorrecte */
+    public Connexion(String password, int localhost) throws ClassNotFoundException, SQLException, DataIncorrecte {
                 
         try{ 
             //Chargement du driver "com.mysql.jdbc.Driver"
@@ -39,13 +40,18 @@ public class Connexion {
         }
         
         //Vérification du mot de passe
-        /*if(!"root".equals(password) || !"".equals(password)){
-           throw new DataIncorrecte("Ce mot de passe est incorrect.");
+        if((!" ".equals(password)) && (!"root".equals(password))){
+           throw new DataIncorrecte("Mot de passe incorrect.");
         } 
-        
-        if(localhost != 8889 || localhost != 3306){
-            throw new DataIncorrecte("Ce localhost est incorrect.");
-        }*/
+        if((localhost != 8889) && (localhost != 3306)){
+           throw new DataIncorrecte("Localhost incorrect.");
+        } 
+        /*if(!"".equals(password)){
+           throw new DataIncorrecte("Mot de passe incorrect.");
+        } 
+        if(localhost != 3306){
+           throw new DataIncorrecte("Localhost incorrect.");
+        } */
         
         //Création d'une connexion JDBC à la base 
         connect = DriverManager.getConnection("jdbc:mysql://localhost:" + localhost + "/java","root",password);

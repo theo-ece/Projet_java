@@ -121,7 +121,7 @@ public class EvaluationDAO extends DAO<Evaluation> {
             }
             
             //Récupération de l'ordre de la requete
-            String rqt = "insert into evaluation (" + champs + ") values (" + obj.getNote() + ", \'" + obj.getAppreciation() + "\');";
+            String rqt = "insert into evaluation (" + champs + ") values (" + obj.getDetailsB().getID() + ", " + obj.getNote() + ", \'" + obj.getAppreciation() + "\');";
             
             //Ajout de l'élément dans la table
             connect.getStatement().executeUpdate(rqt);
@@ -136,6 +136,35 @@ public class EvaluationDAO extends DAO<Evaluation> {
         }  
     }
 
+    
+    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
+     * @return  */
+    @Override
+    public Evaluation trouver_et_charge(int id) {
+        
+        //Création d'un objet Evaluation
+        Evaluation evaluation = new Evaluation();
+        
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from evaluation where id = " + id);  
+            
+            //Si on a un résultat, on se positionne sur cette ligne
+            if (rset.first()){
+                
+                //Création du nouvel objet Evaluation
+                evaluation = new Evaluation(id, rset.getDouble("Note"), rset.getString("Appreciation"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(EvaluationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+        //Retourne l'objet trouvé
+        return evaluation;
+    
+    }
+    
     
     /** trouver : methode permettant de trouver un objet de la table via son id
      * @return  */
