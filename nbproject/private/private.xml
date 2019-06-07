@@ -3,12 +3,27 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/thebo/Documents/NetBeansProjects/Projet/src/Model/Niveau.java</file>
-            <file>file:/C:/Users/thebo/Documents/NetBeansProjects/Projet/src/Model/Enseignant.java</file>
-            <file>file:/C:/Users/thebo/Documents/NetBeansProjects/Projet/src/Model/Etudiant.java</file>
-            <file>file:/C:/Users/thebo/Documents/NetBeansProjects/Projet/src/Model/Classe.java</file>
-            <file>file:/C:/Users/thebo/Documents/NetBeansProjects/Projet/src/Model/Ecole.java</file>
-            <file>file:/C:/Users/thebo/Documents/NetBeansProjects/Projet/src/projet/Projet.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/Trimestre.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/DAO/EvaluationDAO.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Vue/Note_gr.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/Ecole.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Vue/Bulletin_gr.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/DAO/BulletinDAO.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Vue/ModifEtudiant_gr.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/DetailBulletin.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/Enseignant.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Controler/Test.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/DAO/TrimestreDAO.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Vue/Classe_gr.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/Chargement.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/Enseignement.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/Bulletin.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/DAO/DetailBulletinDAO.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Vue/Etudiant_gr.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/AnneeScolaire.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Controler/Controleur.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/Classe.java</file>
+            <file>file:/Users/Flora/Desktop/Projet_java-master%208(2)/Projet_java-master%205-2/Projet_java-master%205/src/Model/Evaluation.java</file>
         </group>
     </open-files>
 </project-private>

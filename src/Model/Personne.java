@@ -5,30 +5,107 @@
  */
 package Model;
 
-import java.util.HashMap;
-import java.util.Scanner;
-
 /**
  *
  * @author thebo
  */
 public class Personne {
+    
     protected String path;
+    
+    /** Attributs prives de la classe : iD, nom, prenom et type */
     protected int iD;
     protected String nom;
     protected String prenom;
     protected int type;
-    protected HashMap<Integer, Classe> classes;
+    
+    //protected HashMap<Integer, Classe> classes;
+    
+    /** Constructeur par defaut */
+    public Personne(){
+        iD = 0;
+        nom = "";
+        prenom = "";
+        type = 0;
+    }
+    
+    /** Constructeur surcharge avec quatre parametres: ID, nom, prenom et type
+     * @param ID
+     * @param nom
+     * @param prenom
+     * @param type */
+    public Personne(int ID, String nom, String prenom, int type){
+        iD = ID;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.type = type;
+    }
+    
+    /** Constructeur surcharge avec trois parametres: nom, prenom et type
+     * @param nom
+     * @param prenom
+     * @param type */
+    public Personne(String nom, String prenom, int type){
+        iD = 0;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.type = type;
+    }
+    
+    /** getID : permettant d acceder a l attribut ID
+     * @return  */
+    public int getID(){
+        return iD;
+    }
+    
+    /** getNom : permettant d acceder a l attribut nom
+     * @return  */
+    public String getNom(){
+        return nom;
+    }
+    
+    /** getPrenom : permettant d acceder a l attribut prenom
+     * @return  */
+    public String getPrenom(){
+        return prenom;
+    }
+    
+    /** getType : permettant d acceder a l attribut type
+     * @return  */
+    public int getType(){
+        return type;
+    }
+
+    /** setID : permettant de modifier l attribut ID
+     * @param id */
+    public void setID(int id){
+        iD = id;
+    }
+    
+    /** setPrenom : permettant de modifier l attribut prenom
+     * @param prenom  */
+    public void setPrenom(String prenom){
+        this.prenom = prenom;
+    }
+    
+    /** setNom : permettant de modifier l attribut nom
+     * @param nom  */
+    public void setNom(String nom){
+        this.nom = nom;
+    }
+    /*
     //La personne existe
     public Personne(int ID,int Type){
         iD = ID;
         type = Type;
         classes = new HashMap<>();
-        /*
-            chargementClasse(ID);
-            Extraire les données de la BDD
-        */
+        
+            //chargementClasse(ID);
+            //Extraire les données de la BDD
+        
     }
+    
+
     // Creation d'une personne
     public Personne(int ID, String Nom, String Prenom, int typ){
         iD=ID;
@@ -37,14 +114,14 @@ public class Personne {
         type = typ;
         chargementClasse(ID);
     }
-    
+    */
     // A completer selon le type et l'ID
-    public void chargementClasse(int id){
+   /* public void chargementClasse(int id){
         classes = new HashMap<>();
         /*
             ... ton code
         */
-    }
+    /*}
     public void showClasses(String src){
         classes.keySet().forEach((key) -> {
             System.out.println(src + " -> Classe -> ["+ key + "] : " + classes.get(key));
@@ -101,7 +178,7 @@ public class Personne {
             classes.remove(Integer.valueOf(key));
         }
     }   // + modif BDD à faire & graph
-    public Classe import_classe(int key){return new Classe(key);}
+    public Classe import_classe(int key){return new Classe(key);}*/
     
     
 }

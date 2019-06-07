@@ -5,21 +5,90 @@
  */
 package Model;
 
-import java.util.HashMap;
-import java.util.Scanner;
+import Connexion.Connexion;
+import DAO.NiveauDAO;
+import java.util.ArrayList;
 
 /**
  *
  * @author thebo
  */
 public class Niveau {
+    
+    
+    /** Attributs prives de la classe : ID, nom et classes */
     private int ID;
     private String nom;
-    protected HashMap<Integer, Classe> Classes;
-    public Niveau(int iD){
-        ID=iD;
-        // nom a chercher dans la BDD
+    protected ArrayList<Classe> classes;
+    
+    
+    /** Constructeur par defaut */
+    public Niveau(){
+        ID = 0;
+        nom = "";
     }
+    
+    /** Constructeur surcharge avec deux parametres : ID et nom
+     * @param ID
+     * @param nom */
+    public Niveau(int ID, String nom){
+        this.ID = ID;
+        this.nom = nom;
+    }
+
+    /** Constructeur surcharge avec un parametre nom
+     * @param nom */
+    public Niveau(String nom){
+        ID = 0;
+        this.nom = nom;
+    }
+    
+    /** getID : permettant d acceder a l attribut ID
+     * @return  */
+    public int getID(){
+        return ID;
+    }
+    
+    /** getNom : permettant d acceder a l attribut nom
+     * @return  */
+    public String getNom(){
+        return nom;
+    }
+    
+    public ArrayList<Classe> getClasses(){
+        return classes;
+    }
+    
+    public void addClasses(Classe c){
+        if(classes == null)
+            classes = new ArrayList<>();
+        
+        classes.add(c);
+    }
+    
+    /** removeAllClasses : permettant de supprimer toutes les classes de l attribut classes */
+    public void removeAllClasses(){
+        classes.clear();
+    }
+    
+    /** ajoutNiveau : methode permettant d ajouter un niveau
+     * @param connect */
+    public void ajoutNiveau(Connexion connect){
+        
+        //Création d'un objet NiveauDAO
+        NiveauDAO niveau_dao = new NiveauDAO(connect);
+        
+        //Appel de la fonction d'ajout
+        niveau_dao.ajouter(this);
+    }
+    
+    
+    /*
+    public Niveau(int iD){
+        ID = iD;
+    }
+    
+    
     public void test(){}
     public void run(String Path, int id){
         chargementClasses();
@@ -47,15 +116,15 @@ public class Niveau {
             }
         }while(!"exit".equals(str));
     }
-    
+   
     // Fonction de chargement du Niveau
     public void chargementClasses(){
         Classes = new HashMap<>();
         /*
             ...ton code
         */
-    }
-    
+    //}
+    /*
     // Fonction de display
     public void showClasses(){
         for (Integer key : Classes.keySet()) {
@@ -123,6 +192,9 @@ public class Niveau {
     }   // + modif BDD à faire & graph
     
     // Fonctions d'import de la BDD
-    public Classe import_classe(int key){return new Classe(key);}
+    public Classe import_classe(int key){return new Classe(key);}*/
+
+    void run(String path, Integer valueOf) {
+    }
     
 }
