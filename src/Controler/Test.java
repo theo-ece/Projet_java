@@ -3,24 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Controler;
-import Connexion.Connexion;
 import Vue.Connexion_gr;
-import Connexion.DataIncorrecte;
 import Model.*;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-/**
+
+/** Test : classe contenant le main
  *
  * @author thebo
  */
 public class Test {
 
-    /**
+    /** Main du projet
      * @param args the command line arguments
-     * @throws java.sql.SQLException
+     * @throws java.sql.SQLException sql exception
      */
     public static void main(String[] args) throws SQLException {
         
@@ -30,53 +27,8 @@ public class Test {
         //Ouverture de la page de connexion
         Connexion_gr test= new Connexion_gr();
         test.setVisible(true);
-         test.setLocationRelativeTo(null);
+        test.setLocationRelativeTo(null);
         
-        //Déclaration de variables
-        /*String mdp, login, base, serveur;
-        
-        //Création d'objets Scanner
-        Scanner sc = new Scanner(System.in);
-        Scanner cl = new Scanner(System.in);
-                    
-        //Saisie par l'utilisateur du mot de passe
-        System.out.println("*** CONNEXION A LA BDD JAVA ***");
-        System.out.print("Login: ");
-        login = sc.nextLine();
-        
-        //Saisie par l'utilisateur du mot de passe
-        System.out.print("Mot de passe: ");
-        mdp = cl.nextLine();
-        
-        //Saisie par l'utilisateur du serveur
-        System.out.print("Serveur: ");
-        serveur = cl.nextLine();
-        
-        //Saisie par l'utilisateur de la base
-        System.out.print("Base: ");
-        base = cl.nextLine();
-
-        //Création d'un objet Connexion
-        Connexion connect;
-        
-        try {
-            try {
-                //Création d'un objet Connexion
-                connect = new Connexion(mdp,login,base,serveur);
-                
-                //Création d'un objet Chargement
-                Chargement charge = new Chargement(connect);
-                charge.initialisation();
-                Controleur controleur = new Controleur(charge, connect);
-                
-                
-            } catch (DataIncorrecte di) {
-                System.out.println(di.getMsg());
-            }
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
    
     }
     

@@ -10,7 +10,7 @@ import DAO.TrimestreDAO;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
+/** Trimestre : classe contenant les donnees liees a la table trimestre de la bdd
  *
  * @author thebo
  */
@@ -19,8 +19,8 @@ public class Trimestre {
     /** Attributs prives de la classe : ID, numero, debut, fin et bulletins */
     private int ID;
     private int numero;
-    private Date debut; 
-    private Date fin;   
+    private String debut; 
+    private String fin;   
     private ArrayList<Bulletin> bulletins;
     
     
@@ -33,12 +33,12 @@ public class Trimestre {
         bulletins = null;
     }
     
-    /** Constructeur surcharge avec quatre parametres : iD, n , d et f
-     * @param iD
-     * @param n
-     * @param d
-     * @param f */
-    public Trimestre(int iD, int n, Date d, Date f){
+    /** Constructeur surcharge avec quatre parametres : iD, n, d et f
+     * @param iD de type int
+     * @param n de type int 
+     * @param d de type String
+     * @param f de type String */
+    public Trimestre(int iD, int n, String d, String f){
         ID = iD;
         numero = n;
         debut = d;
@@ -47,10 +47,10 @@ public class Trimestre {
     }
     
     /** Constructeur surcharge avec trois parametres : n , d et f
-     * @param n
-     * @param d
-     * @param f */
-    public Trimestre(int n, Date d, Date f){
+     * @param n de type int
+     * @param d de type String
+     * @param f de type String */
+    public Trimestre(int n, String d, String f){
         ID = 0;
         numero = n;
         debut = d;
@@ -59,39 +59,39 @@ public class Trimestre {
     }
     
     /** getID : permettant d acceder a l attribut ID
-     * @return  */
+     * @return l attribut ID */
     public int getID(){
         return ID;
     }
     
     /** getNumero : permettant d acceder a l attribut numero
-     * @return  */
+     * @return l attribut numero */
     public int getNumero(){
         return numero;
     }
     
     /** getDebut : permettant d acceder a l attribut debut
-     * @return  */
-    public Date getDebut(){
+     * @return l attribut debut */
+    public String getDebut(){
         return debut;
     }
     
     
     /** getFin : permettant d acceder a l attribut fin
-     * @return  */
-    public Date getFin(){
+     * @return l attribut fin */
+    public String getFin(){
         return fin;
     }
     
     
     /** getBulletins : permettant d acceder a l attribut bulletins
-     * @return  */
+     * @return l attribut bulletins */
     public ArrayList<Bulletin> getBulletins(){
         return bulletins;
     }
     
     /** addBulletins : permettant d ajouter un bulletin a l attribut bulletins
-     * @param b */
+     * @param b de type Bulletin */
     public void addBulletins(Bulletin b){
         if(bulletins == null)
             bulletins = new ArrayList<>();
@@ -105,7 +105,7 @@ public class Trimestre {
     }
     
     /** ajoutTrimestre : methode permettant d ajouter un trimestre
-     * @param connect */
+     * @param connect de type Connexion */
     public void ajoutTrimestre(Connexion connect){
         
         //Création d'un objet TrimestreDAO

@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/** EcoleDAO : classe qui recupere les donnees de la table ecole de la BDD
  *
  * @author Flora
  */
 public class EcoleDAO extends DAO<Ecole> {
     
     /** Construsteur surcharge avec un seul parametre connect
-     * @param connect */
+     * @param connect un objet de type Connexion */
     public EcoleDAO(Connexion connect) {
         
         //Appel du constructeur par défaut de la classe mère
@@ -27,11 +27,11 @@ public class EcoleDAO extends DAO<Ecole> {
     }
 
     
-    /** creer : methode permettant de modifier un attribut d un objet de la table
-     * @param obj
-     * @param champ
-     * @param element
-     * @return  */
+    /** modifier : methode permettant de modifier un attribut d un objet de la table
+     * @param obj un objet de typ Anneescolaire
+     * @param champ un objet de type String 
+     * @param element un objet de type element
+     * @return vrai si la modification a eu lieu et non sinon */
     @Override
     public boolean modifier(Ecole obj, String champ, String element) {
 
@@ -63,8 +63,7 @@ public class EcoleDAO extends DAO<Ecole> {
 
     
     /** supprimer : methode permettant de supprimer un objet de la table
-     * @param obj
-     * @return  */
+     * @param obj de type Ecole */
     @Override
     public void supprimer(Ecole obj) {
         
@@ -85,7 +84,8 @@ public class EcoleDAO extends DAO<Ecole> {
 
     
     /** ajouter : methode permettant d ajouter un nouvel objet dans la table
-     * @return  */
+     * @param obj de type Ecole
+     * @return l ID de l objet ajouter dans la bdd */
     @Override
     public int ajouter(Ecole obj) {
         
@@ -137,8 +137,9 @@ public class EcoleDAO extends DAO<Ecole> {
     }
 
     
-    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
-     * @return  */
+    /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Ecole trouve */
     @Override
     public Ecole trouver_et_charge(int id) {
         
@@ -162,7 +163,7 @@ public class EcoleDAO extends DAO<Ecole> {
         
         try {
             //Récupération de l'ordre de la requete
-            ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select * from classe where Id_ecole =" + id);   
+            ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select distinct Id_niveau from classe where Id_ecole =" + id);   
 
             //Si on a un résultat, on se positionne sur cette ligne
             if (rset2.first()){
@@ -249,8 +250,9 @@ public class EcoleDAO extends DAO<Ecole> {
     }
     
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
-     * @return  */
+    /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Ecole trouve */
     @Override
     public Ecole trouver(int id) {
         

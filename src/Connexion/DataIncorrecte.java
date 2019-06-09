@@ -6,7 +6,7 @@ package Connexion;
  * and open the template in the editor.
  */
 
-/**
+/** DataIncorrecte : exception sur les login, password, serveur et nom de la base lors de la connexion
  *
  * @author Flora
  */
@@ -17,13 +17,13 @@ public class DataIncorrecte extends Exception {
     
     
     /** Constructeur surcharge avec un seul parametre msg
-     * @param msg */
+     * @param msg un message d erreur */
     public DataIncorrecte(String msg){
         this.msg = msg;
     }
     
     /** getMsg : permettant d acceder a l attribut msg 
-     * @return  */
+     * @return l attribut msg */
     public String getMsg(){
         return msg;
     }

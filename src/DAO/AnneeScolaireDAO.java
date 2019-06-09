@@ -11,15 +11,15 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
+/** AnneeScolaireDAO : classe qui recupere les donnees de la table anneescolaire de la BDD
+ * 
  * @author Flora
  */
 public class AnneeScolaireDAO extends DAO<AnneeScolaire> {
  
     
     /** Construsteur surcharge avec un seul parametre connect
-     * @param connect */
+     * @param connect un objet de type Connexion */
     public AnneeScolaireDAO(Connexion connect) {
         
         //Appel du constructeur par défaut de la classe mère
@@ -27,11 +27,11 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire> {
     }
 
     
-    /** creer : methode permettant de modifier un attribut d un objet de la table
-     * @param obj
-     * @param champ
-     * @param element
-     * @return  */
+    /** modifier : methode permettant de modifier un attribut d un objet de la table
+     * @param obj un objet de typ Anneescolaire
+     * @param champ un objet de type String 
+     * @param element un objet de type element
+     * @return vrai si la modification a eu lieu et non sinon */
     @Override
     public boolean modifier(AnneeScolaire obj, String champ, String element) {
 
@@ -64,8 +64,7 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire> {
 
     
     /** supprimer : methode permettant de supprimer un objet de la table
-     * @param obj
-     * @return  */
+     * @param obj un objet de type AnneeScolaire */
     @Override
     public void supprimer(AnneeScolaire obj) {
         
@@ -87,7 +86,8 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire> {
 
     
     /** ajouter : methode permettant d ajouter un nouvel objet dans la table
-     * @return  */
+     * @param obj de type AnneeScolaire
+     * @return l ID de l objet ajouter dans la bdd */
     @Override
     public int ajouter(AnneeScolaire obj) {
         
@@ -140,8 +140,8 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire> {
 
     
     /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
-     * @param id
-     * @return  */
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet AnneeScolaire trouve */
     @Override
     public AnneeScolaire trouver_et_charge(int id) {
         
@@ -215,8 +215,9 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire> {
     }
     
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
-     * @return  */
+    /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet AnneeScolaire trouve */
     @Override
     public AnneeScolaire trouver(int id) {
         

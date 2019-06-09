@@ -8,19 +8,18 @@ package DAO;
 import Connexion.Connexion;
 import Model.Enseignant;
 import Model.Enseignement;
-import Model.Etudiant;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/** EnseignementDAO : classe qui recupere les donnees de la table enseignement de la BDD
  *
  * @author Flora
  */
 public class EnseignementDAO extends DAO<Enseignement> {
     
     /** Construsteur surcharge avec un seul parametre connect
-     * @param connect */
+     * @param connect un objet de type Connexion */
     public EnseignementDAO(Connexion connect) {
         
         //Appel du constructeur par défaut de la classe mère
@@ -28,11 +27,11 @@ public class EnseignementDAO extends DAO<Enseignement> {
     }
 
     
-    /** creer : methode permettant de modifier un attribut d un objet de la table
-     * @param obj
-     * @param champ
-     * @param element
-     * @return  */
+    /** modifier : methode permettant de modifier un attribut d un objet de la table
+     * @param obj un objet de typ Anneescolaire
+     * @param champ un objet de type String 
+     * @param element un objet de type element
+     * @return vrai si la modification a eu lieu et non sinon */
     @Override
     public boolean modifier(Enseignement obj, String champ, String element) {
 
@@ -64,7 +63,7 @@ public class EnseignementDAO extends DAO<Enseignement> {
 
     
     /** supprimer : methode permettant de supprimer un objet de la table
-     * @param obj  */
+     * @param obj un objet de type Enseignement */
     @Override
     public void supprimer(Enseignement obj) {
         
@@ -85,7 +84,8 @@ public class EnseignementDAO extends DAO<Enseignement> {
 
     
     /** ajouter : methode permettant d ajouter un nouvel objet dans la table
-     * @return  */
+     * @param obj de type Enseignement
+     * @return l ID de l objet ajouter dans la bdd */
     @Override
     public int ajouter(Enseignement obj) {
         
@@ -137,16 +137,18 @@ public class EnseignementDAO extends DAO<Enseignement> {
     }
 
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
-     * @return  */
+    /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Enseignement trouve */
     @Override
     public Enseignement trouver(int id) {
         return null;
     }
     
     
-    /** trouver_et_charge : methode permettant de trouver et de charge dans les donnees un objet de la table via son id
-     * @return  */
+    /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Enseignement trouve */
     @Override
     public Enseignement trouver_et_charge(int id) {
         

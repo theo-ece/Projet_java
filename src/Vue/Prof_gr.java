@@ -11,15 +11,18 @@ import Model.HashInexistant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/** Prof_gr : classe graphique
  *
  * @author lro
  */
 public class Prof_gr extends javax.swing.JFrame {
 
-    Controleur a;
+    /** Attribut prive de la classe a */
+    private Controleur a;
+    
     /**
      * Creates new form Prof_gr
+     * @param control de type Controleur
      */
     public Prof_gr(Controleur control) {
         initComponents();
@@ -46,8 +49,6 @@ public class Prof_gr extends javax.swing.JFrame {
         Modifier = new javax.swing.JButton();
         Supprimer = new javax.swing.JButton();
         Ajouter = new javax.swing.JButton();
-        Modifier_id = new javax.swing.JTextField();
-        Supprimer_id = new javax.swing.JTextField();
         Rechercher_id = new javax.swing.JTextField();
         Refresh = new javax.swing.JButton();
 
@@ -76,7 +77,7 @@ public class Prof_gr extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Retour.setBackground(new java.awt.Color(153, 0, 0));
@@ -147,24 +148,14 @@ public class Prof_gr extends javax.swing.JFrame {
             }
         });
 
-        Modifier_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Modifier_idActionPerformed(evt);
-            }
-        });
-
-        Supprimer_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Supprimer_idActionPerformed(evt);
-            }
-        });
-
         Rechercher_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Rechercher_idActionPerformed(evt);
             }
         });
 
+        Refresh.setBackground(new java.awt.Color(153, 0, 0));
+        Refresh.setForeground(new java.awt.Color(255, 255, 255));
         Refresh.setText("Afficher tout");
         Refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,13 +180,9 @@ public class Prof_gr extends javax.swing.JFrame {
                             .addComponent(Rechercher)
                             .addComponent(Rechercher_id, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(53, 53, 53)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Modifier_id)
-                            .addComponent(Modifier, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(63, 63, 63)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Supprimer_id, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Supprimer, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Modifier, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
+                        .addComponent(Supprimer, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(83, 83, 83)
                         .addComponent(Ajouter, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(62, 62, 62))))
@@ -211,23 +198,19 @@ public class Prof_gr extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Modifier_id, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Supprimer_id, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Rechercher_id, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Rechercher)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(Supprimer)
-                                .addComponent(Modifier)))
-                        .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Ajouter)
-                        .addGap(33, 33, 33)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Ajouter)
+                            .addComponent(Supprimer)
+                            .addComponent(Modifier))
+                        .addGap(33, 33, 33))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(Rechercher_id, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Rechercher)
+                        .addGap(18, 18, 18)))
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -265,43 +248,44 @@ public class Prof_gr extends javax.swing.JFrame {
         try {
             table.setModel(a.rechercher_enseignant(Integer.valueOf(Rechercher_id.getText())));
             
-        } catch (HashExistant ex) {
-            Logger.getLogger(Etudiant_gr.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (HashInexistant ex) {
+        } catch (HashExistant | HashInexistant ex) {
             Logger.getLogger(Etudiant_gr.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_RechercherActionPerformed
 
     private void ModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifierActionPerformed
-        this.setVisible(false);
-        ModifProf_gr test= new ModifProf_gr(a);
-        test.setVisible(true);
-         test.setLocationRelativeTo(null);
+        int ligne = table.getSelectedRow();
+        if(ligne != -1){
+            this.setVisible(false);
+            int id = (int) table.getValueAt(ligne, 0);
+            ModifProf_gr test= new ModifProf_gr(a, Integer.valueOf(id));
+            test.setVisible(true);
+            test.setLocationRelativeTo(null);
+        }
     }//GEN-LAST:event_ModifierActionPerformed
 
     private void SupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerActionPerformed
-        a.supprimer_enseignant(Integer.valueOf(Supprimer_id.getText()));
-        this.setVisible(false);
-        Prof_gr test= new Prof_gr(a);
-        test.setVisible(true);
-         test.setLocationRelativeTo(null);
+        int ligne = table.getSelectedRow();
+        if(ligne != -1){
+            
+            int id = (int) table.getValueAt(ligne, 0);
+            a.supprimer_enseignant(Integer.valueOf(id));
+            Prof_gr test= new Prof_gr(a);
+            this.setVisible(false);
+            test.setVisible(true);
+            test.setLocationRelativeTo(null);
+        }
         
     }//GEN-LAST:event_SupprimerActionPerformed
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-        this.setVisible(false);
-        ModifProf_gr test= new ModifProf_gr(a);
-        test.setVisible(true);
-         test.setLocationRelativeTo(null);
+        
+            this.setVisible(false);
+            AddProf_gr test= new AddProf_gr(a);
+            test.setVisible(true);
+            test.setLocationRelativeTo(null);
+        
     }//GEN-LAST:event_AjouterActionPerformed
-
-    private void Modifier_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Modifier_idActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Modifier_idActionPerformed
-
-    private void Supprimer_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Supprimer_idActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Supprimer_idActionPerformed
 
     private void Rechercher_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Rechercher_idActionPerformed
         // TODO add your handling code here:
@@ -315,13 +299,11 @@ public class Prof_gr extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Ajouter;
     private javax.swing.JButton Modifier;
-    private javax.swing.JTextField Modifier_id;
     private javax.swing.JButton Rechercher;
     private javax.swing.JTextField Rechercher_id;
     private javax.swing.JButton Refresh;
     private javax.swing.JButton Retour;
     private javax.swing.JButton Supprimer;
-    private javax.swing.JTextField Supprimer_id;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

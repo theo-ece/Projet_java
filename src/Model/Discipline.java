@@ -8,7 +8,7 @@ package Model;
 import Connexion.Connexion;
 import DAO.DisciplineDAO;
 
-/**
+/** Discipline : classe contenant les donnees liees a la table discipline de la bdd
  *
  * @author thebo
  * 
@@ -27,33 +27,33 @@ public class Discipline {
     }
     
     /** Constructeur surcharge surcharge avec deux parametres iD et N
-     * @param iD
-     * @param N */
+     * @param iD de type int
+     * @param N de type String */
     public Discipline(int iD, String N){
         ID=iD;
         nom=N;
     }
     
     /** Constructeur surcharge surcharge avec un parametre nom
-     * @param nom */
+     * @param nom de type String */
     public Discipline(String nom){
         this.nom = nom;
     }
     
     /** getID : permettant d'acceder a l attribut ID
-     * @return  */
+     * @return l attribut ID */
     public int getID(){
         return ID;
     }
     
     /** getNom : permettant d'acceder a l attribut nom
-     * @return  */
+     * @return l attribut nom */
     public String getNom(){
         return nom;
     }
     
     /** ajoutDiscipline : methode permettant d ajouter une Discipline
-     * @param connect */
+     * @param connect de type Connexion */
     public void ajoutDiscipline(Connexion connect){
         
         //Création d'un objet DisciplineDAO

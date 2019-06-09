@@ -8,17 +8,20 @@ package Vue;
 import Controler.Controleur;
 import java.sql.SQLException;
 
-/**
+/** Ecole_gr : classe graphique
  *
  * @author lro
  */
 public class Ecole_gr extends javax.swing.JFrame {
 
+    /** Attribut prive de la classe a */
+    private Controleur a;
+    
     /**
      * Creates new form Ecole_gr
+     * @param control de type Controleur
+     * @throws java.sql.SQLException sql exception
      */
-    Controleur a;
-    
     public Ecole_gr(Controleur control) throws SQLException {
         initComponents();
         a = control;
@@ -26,6 +29,8 @@ public class Ecole_gr extends javax.swing.JFrame {
             Ecole.addItem(a.returnecole()[i]);
     }
     
+    /** getControl : retourne l attribut a
+     * @return l attribut a */
     public Controleur getControl(){
         return a;
     }

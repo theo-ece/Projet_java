@@ -9,7 +9,7 @@ package Connexion;
 import java.sql.*;
 import java.util.*;
 
-/**
+/** Classe Connexion : permet de se connecter a la BDD
  *
  * @author Flora
  */
@@ -23,13 +23,13 @@ public class Connexion {
     
     
     /** Constructeur surcharge avec en parametre un String password
-     * @param password
-     * @param login
-     * @param base
-     * @param serveur
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
-     * @throws Connexion.DataIncorrecte */
+     * @param password mot de passe pour se connecter
+     * @param login identifiant pour se connecter
+     * @param base nom de la base de donneees
+     * @param serveur serveur de la bdd
+     * @throws java.lang.ClassNotFoundException exception 
+     * @throws java.sql.SQLException sql exception 
+     * @throws Connexion.DataIncorrecte exception si les identifiants sont faux */
     public Connexion(String password, String login, String base, String serveur) throws ClassNotFoundException, SQLException, DataIncorrecte {
         
         //password = root ou rien
@@ -80,34 +80,34 @@ public class Connexion {
         stmt = connect.createStatement();
     }
     
-    /**
-     * @return  */
+    /** getStatement : permet d acceder a l attribut stmt
+     * @return l attribut stmt */
     public Statement getStatement(){
         return stmt;
     }   
     
-    /**
-     * @return  */
+    /** getConnexion : permet d acceder a l attribut connect
+     * @return l attribut connect */
     public Connection getConnexion(){
         return connect;
     }   
     
-    /**
-     * @return  */
+    /** getResultSet : permet d acceder a l attribut rset
+     * @return l attribut rset */
     public ResultSet getResultset(){
         return rset;
     }  
     
-    /**
-     * @return  */
+    /** getResultmetadata : permet d acceder a l attribut rsetMeta
+     * @return l attribut rsetMeta */
     public ResultSetMetaData getResultsetmetadata(){
         return rsetMeta;
     }  
     
     /** afficherTable : fonction permettant de recuperer l ensemble des elements de la table recue en parametres
-     * @param table
-     * @return 
-     * @throws java.sql.SQLException */
+     * @param table une table de la bdd
+     * @return l ensemble des elements de la table recue en parametres
+     * @throws java.sql.SQLException : sql exception */
     public ArrayList afficherTable(String table) throws SQLException {
         
         //Récupération de l'ordre de la requete
@@ -158,9 +158,9 @@ public class Connexion {
     
     
     /** recuperer _champs : methode permettant de recuperer les champs d une table recue en parametres
-     * @param table
-     * @return 
-     * @throws java.sql.SQLException */
+     * @param table une table de la bdd
+     * @return les champs d une table recue en parametres
+     * @throws java.sql.SQLException : sql exception */
     public ArrayList recuperer_champs(String table) throws SQLException {
         
         //Récupération de l'ordre de la requete

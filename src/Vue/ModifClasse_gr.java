@@ -13,13 +13,24 @@ import Controler.Controleur;
  */
 public class ModifClasse_gr extends javax.swing.JFrame {
 
-    Controleur a;
+    /** attributs prives de la classe : a, Id_classe */
+    private Controleur a;
+    private int Id_classe;
+    
     /**
      * Creates new form ModifClasse_gr
+     * @param control de type Controleur
+     * @param Id_classe de type int
      */
-    public ModifClasse_gr(Controleur control) {
+    public ModifClasse_gr(Controleur control, int Id_classe) {
         initComponents();
         a = control;
+        this.Id_classe = Id_classe;
+        
+        etudiants.setModel(a.retourne_eleves(Id_classe));
+
+        Id.setText(""+Id_classe);
+        Nom.setText(a.return_nom_classe(Id_classe));
     }
 
     /**
@@ -37,17 +48,14 @@ public class ModifClasse_gr extends javax.swing.JFrame {
         Retour = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         Supprimer = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        Supprimer_id = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        Prenom = new javax.swing.JTextField();
+        etudiants = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         Nom = new javax.swing.JTextField();
-        Inscription = new javax.swing.JTextField();
         Id = new javax.swing.JTextField();
         Ajouter = new javax.swing.JButton();
+        Modifier = new javax.swing.JButton();
+        modifclasse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,7 +82,7 @@ public class ModifClasse_gr extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Retour.setBackground(new java.awt.Color(153, 0, 0));
@@ -97,56 +105,34 @@ public class ModifClasse_gr extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Prénom :");
-
-        Supprimer_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Supprimer_idActionPerformed(evt);
-            }
-        });
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        etudiants.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id", "Prenom", "Nom", "Inscription"
+                "Id", "Prenom", "Nom"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+        etudiants.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable3MouseClicked(evt);
+                etudiantsMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(jTable3);
-
-        Prenom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PrenomActionPerformed(evt);
-            }
-        });
+        jScrollPane4.setViewportView(etudiants);
 
         jLabel5.setText("Nom :");
-
-        jLabel6.setText("Inscription :");
 
         Nom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NomActionPerformed(evt);
-            }
-        });
-
-        Inscription.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InscriptionActionPerformed(evt);
             }
         });
 
@@ -158,10 +144,28 @@ public class ModifClasse_gr extends javax.swing.JFrame {
 
         Ajouter.setBackground(new java.awt.Color(153, 0, 0));
         Ajouter.setForeground(new java.awt.Color(255, 255, 255));
-        Ajouter.setText("Ajouter Elève");
+        Ajouter.setText("Ajouter un élève");
         Ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AjouterActionPerformed(evt);
+            }
+        });
+
+        Modifier.setBackground(new java.awt.Color(153, 0, 0));
+        Modifier.setForeground(new java.awt.Color(255, 255, 255));
+        Modifier.setText("Modifier élève");
+        Modifier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModifierActionPerformed(evt);
+            }
+        });
+
+        modifclasse.setBackground(new java.awt.Color(153, 0, 0));
+        modifclasse.setForeground(new java.awt.Color(255, 255, 255));
+        modifclasse.setText("Modifier nom de la classe");
+        modifclasse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifclasseActionPerformed(evt);
             }
         });
 
@@ -173,40 +177,30 @@ public class ModifClasse_gr extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(Ajouter)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(53, 53, 53)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel4))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(Id, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(Prenom, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(Nom, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(Inscription, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(Supprimer_id, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-                                .addComponent(Supprimer)))
-                        .addGap(80, 80, 80)))
+                            .addComponent(Id, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Nom, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(80, 80, 80))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Ajouter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Supprimer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Modifier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(modifclasse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(Retour)
-                        .addGap(213, 213, 213)))
-                .addContainerGap())
+                        .addGap(218, 218, 218))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,33 +208,28 @@ public class ModifClasse_gr extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(Prenom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
+                        .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(Nom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(42, 42, 42)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(Inscription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(62, 62, 62)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(modifclasse)
+                        .addGap(33, 33, 33)
                         .addComponent(Ajouter)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Supprimer)
-                    .addComponent(Supprimer_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Retour))
+                        .addGap(27, 27, 27)
+                        .addComponent(Supprimer)
+                        .addGap(33, 33, 33)
+                        .addComponent(Modifier)
+                        .addGap(42, 42, 42)))
+                .addComponent(Retour)
                 .addGap(50, 50, 50))
         );
 
@@ -268,55 +257,69 @@ public class ModifClasse_gr extends javax.swing.JFrame {
     }//GEN-LAST:event_RetourActionPerformed
 
     private void SupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerActionPerformed
-        // TODO add your handling code here:
+        int ligne = etudiants.getSelectedRow();
+        if(ligne != -1){
+            int id = (int) etudiants.getValueAt(ligne, 0);
+            a.supprimer_etudiant(Integer.valueOf(id));
+            Etudiant_gr test= new Etudiant_gr(a);
+            this.setVisible(false);
+            test.setVisible(true);
+            test.setLocationRelativeTo(null);
+        }
     }//GEN-LAST:event_SupprimerActionPerformed
 
-    private void Supprimer_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Supprimer_idActionPerformed
+    private void etudiantsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_etudiantsMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_Supprimer_idActionPerformed
-
-    private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTable3MouseClicked
-
-    private void PrenomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrenomActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PrenomActionPerformed
+    }//GEN-LAST:event_etudiantsMouseClicked
 
     private void NomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NomActionPerformed
-
-    private void InscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InscriptionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_InscriptionActionPerformed
 
     private void IdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_IdActionPerformed
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        AddEtudiant_gr test= new AddEtudiant_gr(a);
+        test.setVisible(true);
+        test.setLocationRelativeTo(null);
     }//GEN-LAST:event_AjouterActionPerformed
+
+    private void ModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifierActionPerformed
+        int ligne = etudiants.getSelectedRow();
+        if(ligne != -1){
+            this.setVisible(false);
+            int id = (int) etudiants.getValueAt(ligne, 0);
+            ModifEtudiant_gr test= new ModifEtudiant_gr(a, Integer.valueOf(id));
+            test.setVisible(true);
+            test.setLocationRelativeTo(null);
+        }
+    }//GEN-LAST:event_ModifierActionPerformed
+
+    private void modifclasseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifclasseActionPerformed
+        this.setVisible(false);
+        a.modif_classe(Nom.getText(), Id_classe);
+        this.setVisible(true);
+        this.setLocationRelativeTo(null);
+    }//GEN-LAST:event_modifclasseActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Ajouter;
     private javax.swing.JTextField Id;
-    private javax.swing.JTextField Inscription;
+    private javax.swing.JButton Modifier;
     private javax.swing.JTextField Nom;
-    private javax.swing.JTextField Prenom;
     private javax.swing.JButton Retour;
     private javax.swing.JButton Supprimer;
-    private javax.swing.JTextField Supprimer_id;
+    private javax.swing.JTable etudiants;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable3;
+    private javax.swing.JButton modifclasse;
     // End of variables declaration//GEN-END:variables
 }

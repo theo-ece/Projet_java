@@ -7,7 +7,7 @@ package Vue;
 
 import Controler.Controleur;
 
-/**
+/** Note_gr : classe graphique
  *
  * @author lro
  */
@@ -19,8 +19,8 @@ public class Note_gr extends javax.swing.JFrame {
     
     /**
      * Creates new form Note_gr
-     * @param control
-     * @param Id_etudiant
+     * @param control de type Controleur
+     * @param Id_etudiant de type Etudiant
      */
     public Note_gr(Controleur control, int Id_etudiant) {
         initComponents();
@@ -78,17 +78,17 @@ public class Note_gr extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(468, 468, 468)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addGap(349, 349, 349))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         Retour.setBackground(new java.awt.Color(153, 0, 0));
@@ -163,7 +163,7 @@ public class Note_gr extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(157, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -194,7 +194,7 @@ public class Note_gr extends javax.swing.JFrame {
                         .addComponent(Retour)
                         .addGap(27, 27, 27))))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(385, 385, 385)
+                .addGap(393, 393, 393)
                 .addComponent(Modif)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -263,17 +263,14 @@ public class Note_gr extends javax.swing.JFrame {
 
     private void disciplinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disciplinesActionPerformed
         if(a.return_prof((String) disciplines.getSelectedItem(), Id_etudiant) != null){
-            profs.removeAllItems();;
+            profs.removeAllItems();
             //Affichage des profs
             profs.addItem(a.return_prof((String) disciplines.getSelectedItem(),Id_etudiant));
             profs.setSelectedIndex(0);
-            
         }
         else {
             profs.removeAllItems();
         }
-        
-        
     }//GEN-LAST:event_disciplinesActionPerformed
 
     private void profsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profsActionPerformed
@@ -287,6 +284,7 @@ public class Note_gr extends javax.swing.JFrame {
     private void anneesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anneesActionPerformed
         if(a.returntrimestre(annees.getSelectedIndex()+1) != null){
             
+            trimestres.removeAllItems();
             for(int i=0; i<a.returntrimestre(annees.getSelectedIndex()+1).length; i++)
                 trimestres.addItem(a.returntrimestre(annees.getSelectedIndex()+1)[i]);
             trimestres.setSelectedIndex(0);

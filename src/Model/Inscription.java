@@ -8,13 +8,13 @@ package Model;
 import Connexion.Connexion;
 import DAO.InscriptionDAO;
 
-/**
+/** Inscription : classe contenant les donnees liees a la table inscription de la bdd
  *
  * @author Flora
  */
 public class Inscription {
     
-    /** Attribut prive de la classe : classe, etudiant */
+    /** Attribut prive de la classe : ID */
     private int ID;
     
     //Attributs pour l' ajout
@@ -27,51 +27,51 @@ public class Inscription {
     }
     
     /** Constructeur surcharge avec un parametre ID
-     * @param ID */
+     * @param ID de type int */
     public Inscription(int ID){
         this.ID = ID;
     }
     
-    /** Constructeur surcharge avec un seul parametre classe
-     * @param classe
-     * @param etudiant */
+    /** Constructeur surcharge avec deux parametres classe
+     * @param classe de type Classe
+     * @param etudiant de type Etudiant */
     public Inscription(Classe classe, Etudiant etudiant){
         this.classe = classe;
         this.etudiant = etudiant;
     }
     
     /** getID : permet d acceder a l attribut ID
-     * @return  */
+     * @return l attribut ID */
     public int getID(){
         return ID;
     }
     
     /** setID : permettant de modifier l attribut ID
-     * @param id */
+     * @param id de type int */
     public void setID(int id){
         ID = id;
     }
     
     /** getClasse : permettant d acceder a l attribut classe
-     * @return  */
+     * @return l attribut classe */
     public Classe getClasse(){
         return classe;
     }
     
     /** setClasse : permettant de modifier l attribut classe
-     * @param classe */
+     * @param classe de type Classe */
     public void setClasse(Classe classe){
         this.classe = classe;
     }
     
     /** getEtudiant : permettant d acceder a l attribut etudiant
-     * @return  */
+     * @return l attribut etudiant */
     public Etudiant getEtudiant(){
         return etudiant;
     }
     
     /** setEtudiant : permettant de modifier l attribut etudiant
-     * @param etudiant */
+     * @param etudiant de type Etudiant */
     public void setEtudiant(Etudiant etudiant){
         this.etudiant = etudiant;
     }

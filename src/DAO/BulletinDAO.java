@@ -12,7 +12,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/** BulletinDAO : classe qui recupere les donnees de la table bulletin de la BDD
  *
  * @author Flora
  */
@@ -20,18 +20,18 @@ public class BulletinDAO extends DAO<Bulletin> {
     
     
     /** Construsteur surcharge avec un seul parametre connect
-     * @param connect */
+     * @param connect un objet de type Connexion */
     public BulletinDAO(Connexion connect) {
         
         //Appel du constructeur par défaut de la classe mère
         super(connect);
     }
 
-     /** creer : methode permettant de modifier un attribut d un objet de la table
-     * @param obj
-     * @param champ
-     * @param element
-     * @return  */
+    /** modifier : methode permettant de modifier un attribut d un objet de la table
+     * @param obj un objet de typ Anneescolaire
+     * @param champ un objet de type String 
+     * @param element un objet de type element
+     * @return vrai si la modification a eu lieu et non sinon */
     @Override
     public boolean modifier(Bulletin obj, String champ, String element) {
 
@@ -63,8 +63,7 @@ public class BulletinDAO extends DAO<Bulletin> {
 
     
     /** supprimer : methode permettant de supprimer un objet de la table
-     * @param obj
-     * @return  */
+     * @param obj un objet de type Bulletin */
     @Override
     public void supprimer(Bulletin obj) {
         
@@ -85,7 +84,8 @@ public class BulletinDAO extends DAO<Bulletin> {
 
     
     /** ajouter : methode permettant d ajouter un nouvel objet dans la table
-     * @return  */
+     * @param obj de type Bulletin
+     * @return l ID de l objet ajouter dans la bdd */
     @Override
     public int ajouter(Bulletin obj) {
         
@@ -117,17 +117,16 @@ public class BulletinDAO extends DAO<Bulletin> {
             }
 
             //Récupération de l'ordre de la requete
-            ResultSet rset1 = connect.getConnexion().createStatement().executeQuery("select * from inscription where id_personne = " + obj.getEtudiant().getID());
+            //ResultSet rset1 = connect.getConnexion().createStatement().executeQuery("select * from inscription where id_personne = " + obj.getEtudiant().getID());
 
             //Récupération de l'ordre de la requete
-            if(rset1.first()){
-                String rqt = "insert into bulletin (" + champs + ") values (" + obj.getTrimestre().getID() + ", " + rset1.getInt("Id") + ", \'" + obj.getAppreciation() + "\');";
+            //if(rset1.first()){
+                String rqt = "insert into bulletin (" + champs + ") values (" + obj.getTrimestre().getID() + ", " + obj.getInscription().getID() + ", \'" + obj.getAppreciation() + "\');";
 
-                System.out.println(rqt);
                 //Ajout de l'élément dans la table
                 connect.getStatement().executeUpdate(rqt);
             
-            }
+            //}
             
             //Recherche l'id de l'élément ajouter
             ResultSet rset2 = connect.getConnexion().createStatement().executeQuery("select LAST_INSERT_ID() as last_id from bulletin"); 
@@ -145,8 +144,8 @@ public class BulletinDAO extends DAO<Bulletin> {
 
     
     /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
-     * @param id
-     * @return  */
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Bulletin trouve */
     @Override
     public Bulletin trouver_et_charge(int id) {
         
@@ -226,8 +225,8 @@ public class BulletinDAO extends DAO<Bulletin> {
     
     
     /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
-     * @param id
-     * @return  */
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Bulletin trouve */
     @Override
     public Bulletin trouver(int id) {
         

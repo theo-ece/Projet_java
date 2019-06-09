@@ -11,14 +11,14 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/** NiveauDAO : classe qui recupere les donnees de la table niveau de la BDD
  *
  * @author Flora
  */
 public class NiveauDAO extends DAO<Niveau> {
     
     /** Construsteur surcharge avec un seul parametre connect
-     * @param connect */
+     * @param connect un objet de type Connexion */
     public NiveauDAO(Connexion connect) {
         
         //Appel du constructeur par défaut de la classe mère
@@ -26,11 +26,11 @@ public class NiveauDAO extends DAO<Niveau> {
     }
 
     
-    /** creer : methode permettant de modifier un attribut d un objet de la table
-     * @param obj
-     * @param champ
-     * @param element
-     * @return  */
+    /** modifier : methode permettant de modifier un attribut d un objet de la table
+     * @param obj un objet de typ Anneescolaire
+     * @param champ un objet de type String 
+     * @param element un objet de type element
+     * @return vrai si la modification a eu lieu et non sinon */
     @Override
     public boolean modifier(Niveau obj, String champ, String element) {
 
@@ -62,8 +62,7 @@ public class NiveauDAO extends DAO<Niveau> {
 
     
     /** supprimer : methode permettant de supprimer un objet de la table
-     * @param obj
-     * @return  */
+     * @param obj un objet de type Niveau */
     @Override
     public void supprimer(Niveau obj) {
         
@@ -84,7 +83,8 @@ public class NiveauDAO extends DAO<Niveau> {
 
     
     /** ajouter : methode permettant d ajouter un nouvel objet dans la table
-     * @return  */
+     * @param obj de type Niveau
+     * @return l ID de l objet ajouter dans la bdd */
     @Override
     public int ajouter(Niveau obj) {
         
@@ -136,8 +136,9 @@ public class NiveauDAO extends DAO<Niveau> {
     }
 
     
-    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
-     * @return  */
+   /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Niveau trouve */
     @Override
     public Niveau trouver_et_charge(int id) {
         
@@ -188,8 +189,9 @@ public class NiveauDAO extends DAO<Niveau> {
     }
     
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
-     * @return  */
+    /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Niveau trouve */
     @Override
     public Niveau trouver(int id) {
         

@@ -8,27 +8,20 @@ package Model;
 import Connexion.Connexion;
 import DAO.BulletinDAO;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-/**
+/** Bulletin : classe contenant les donnees liees a la table bulletin de la bdd
  *
  * @author thebo
  */
 public class Bulletin {
     
-    /** Attributs prives de la classe : ID, appreciation, bulletin_global */
+    /** Attributs prives de la classe : ID, appreciation, bulletin_global, inscription, trimestre, etudiant */
     private int ID;
     private String appreciation;
     private ArrayList<DetailBulletin> bulletins_detail;
     private Inscription inscription;
     private Trimestre trimestre;
     private Etudiant etudiant;
-    
-    //protected HashMap<Integer, Evaluation> eval;
-    
-    //attribut utile pour l'ajout uniquement
-    
-    
     
     
     /** Constructeur par defaut */
@@ -43,8 +36,8 @@ public class Bulletin {
     }
     
     /** Constructeur surcharge avec deux parametres ID et appreciation
-     * @param ID
-     * @param appreciation */
+     * @param ID de type int
+     * @param appreciation de type String */
     public Bulletin(int ID, String appreciation){
         this.ID = ID;
         this.appreciation = appreciation;
@@ -55,7 +48,7 @@ public class Bulletin {
     }
     
     /** Constructeur surcharge avec un parametre appreciation
-     * @param appreciation */
+     * @param appreciation de type String */
     public Bulletin(String appreciation){
         ID = 0;
         this.appreciation = appreciation;
@@ -66,25 +59,31 @@ public class Bulletin {
     }
 
     /** getID : permet d acceder  a l attribut ID
-     * @return  */
+     * @return l attribut ID */
     public int getID(){
         return ID;
     }
     
+    /** setID : permet d acceder  a l attribut ID
+     * @param id de type int */
+    public void setID(int id){
+        ID = id;
+    }
+    
     /** getDetailBulletin : permet d acceder a l attribut bulletins_detail
-     * @return  */
+     * @return l attribut bulletins_detail */
     public ArrayList<DetailBulletin> getDetailBulletin(){
         return bulletins_detail;
     }
     
     /** getAppreciation : permet d acceder a l attribut appreciation
-     * @return  */
+     * @return l attribut appreciation */
     public String getAppreciation(){
         return appreciation;
     }
     
     /** addDetailsB : permet d ajouter un DetailBulletin  a l attribut bulletins_detail
-     * @param d */
+     * @param d de type DetailBulletin */
     public void addDetailsB(DetailBulletin d){
         if(bulletins_detail == null)
             bulletins_detail = new ArrayList<>();
@@ -98,43 +97,43 @@ public class Bulletin {
     }
     
     /** setTrimestre : permet de modifier l attribut trimestre
-     * @param trimestre */
+     * @param trimestre  de type Trimestre */
     public void setTrimestre(Trimestre trimestre){
         this.trimestre = trimestre;
     }
     
     /** setEtudiant : permet de modifier l attribut etudiant
-     * @param etudiant */
+     * @param etudiant de type Etudiant */
     public void setEtudiant(Etudiant etudiant){
         this.etudiant = etudiant;
     }
     
     /** getTrimestre : permet d acceder a l attribut trimestre
-     * @return  */
+     * @return l attribut trimestre */
     public Trimestre getTrimestre(){
         return trimestre;
     }
     
     /** getEtudiant : permet d acceder a l attribut etudiant
-     * @return  */
+     * @return l attribut etudiant */
     public Etudiant getEtudiant(){
         return etudiant;
     }
     
     /** getInscription : permet d acceder a l attribut inscription
-     * @return  */
+     * @return l attribut inscription */
     public Inscription getInscription(){
         return inscription;
     }
     
-    /** setInscription : permet de modifierl attribut etudiant
-     * @param inscription  */
+    /** setInscription : permet de modifier l attribut etudiant
+     * @param inscription de type Inscription */
     public void setInscription(Inscription inscription){
         this.inscription = inscription;
     }
     
     /** ajoutBulletin : methode permettant d ajouter un bulletin
-     * @param connect */
+     * @param connect de type Connexion */
     public void ajoutBulletin(Connexion connect){
         
         //Création d'un objet BulletinDAO
@@ -142,14 +141,6 @@ public class Bulletin {
         
         //Appel de la fonction d'ajout
         bulletin_dao.ajouter(this);
-    }
-    
-    
-    public Bulletin(int iD){
-        ID = iD;
-        /*
-            Sortir de la bdd les note du gars et son appreciation
-        */
     }
     
 }

@@ -15,13 +15,16 @@ import java.util.logging.Logger;
  */
 public class ModifEcole_gr extends javax.swing.JFrame {
 
+    /** Attribut prive de la classe a */
+    private Controleur a;
+    
     /**
      * Creates new form ModifEcole_gr
+     * @param control de type Controleur
      */
-    Controleur a;
     public ModifEcole_gr(Controleur control) {
         initComponents();
-        a= control;
+        a = control;
     }
 
     /**

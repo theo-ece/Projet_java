@@ -13,13 +13,13 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/** Chargement : classe chargeant les donnees de la bdd dans les classes du model
  *
  * @author Flora
  */
 public class Chargement {
     
-    /** Attributs prives de la classe : connect, ecole, annees_scolarires */
+    /** Attributs prives de la classe : connect, ecole, annees_scolaires, inscriptions et enseignements */
     private final Connexion connect;
     private ArrayList<Ecole> ecoles;
     private ArrayList<AnneeScolaire> annees_scolaires;
@@ -28,7 +28,7 @@ public class Chargement {
     
     
     /** Contructeur prive surcharge avec un parametre connect
-     * @param connect */
+     * @param connect de type Connexion */
     public Chargement(Connexion connect){
         this.connect = connect;
         ecoles = null;
@@ -43,13 +43,13 @@ public class Chargement {
     }
     
     /** getEcoles : getter permettant d acceder a l ArrayList des ecoles
-     * @return  */
+     * @return l attribut ecole */
     public ArrayList<Ecole> getEcoles(){
         return ecoles;
     }
     
     /** addEcoles : methode permettant d ajouter une ecole  a l ArrayList des ecoles
-     * @param e */
+     * @param e de type Ecole */
     public void addEcoles(Ecole e){
         if(ecoles == null)
             ecoles = new ArrayList<>();
@@ -58,13 +58,13 @@ public class Chargement {
     }
     
     /** getAnnees : getter permettant d acceder a l ArrayList des ecoles
-     * @return  */
+     * @return l attribut annees_scolaires */
     public ArrayList<AnneeScolaire> getAnnees(){
         return annees_scolaires;
     }
     
     /** addAnnees : methode permettant d ajouter une ecole  a l ArrayList des ecoles
-     * @param a */
+     * @param a de type AnneeScolaire */
     public void addAnnees(AnneeScolaire a){
         if(annees_scolaires == null)
             annees_scolaires = new ArrayList<>();
@@ -73,13 +73,13 @@ public class Chargement {
     }
     
     /** getInscription : getter permettant d acceder a l ArrayList des inscriptions
-     * @return  */
+     * @return l attribut inscriptions */
     public ArrayList<Inscription> getInscription(){
         return inscriptions;
     }
     
     /** addInscriptions : methode permettant d ajouter une ecole  a l ArrayList des inscriptions
-     * @param i */
+     * @param i de type Inscription */
     public void addInscriptions(Inscription i){
         if(inscriptions == null)
             inscriptions = new ArrayList<>();
@@ -88,13 +88,13 @@ public class Chargement {
     }
     
     /** getEnseignement : getter permettant d acceder a l ArrayList des enseignements
-     * @return  */
+     * @return l attribut enseignements */
     public ArrayList<Enseignement> getEnseignement(){
         return enseignements;
     }
     
     /** addEnseignement : methode permettant d ajouter une ecole  a l ArrayList des enseignements
-     * @param e */
+     * @param e de type Enseignement */
     public void addEnseignement(Enseignement e){
         if(enseignements == null)
             enseignements = new ArrayList<>();
@@ -102,9 +102,7 @@ public class Chargement {
         enseignements.add(e);
     }
     
-    /** initialisation : appel de toutes les fonctions de chargement
-     * 
-     */
+    /** initialisation : appel de toutes les fonctions de chargement */
     public void initialisation(){
         chargementTrimestres();
         chargementEvaluations();
@@ -123,9 +121,9 @@ public class Chargement {
     
     
     /** charger : methode static permet de retourner un ArrayList contenant les Id de chaque objet d'une table
-     * @param table
-     * @return 
-     * @throws java.sql.SQLException */
+     * @param table de type String
+     * @return un arraylist de int contenant tous les id
+     * @throws java.sql.SQLException sql exception */
     public ArrayList<Integer> charger(String table) throws SQLException{
         
         //Création d'un Objet ResultSet
@@ -188,9 +186,8 @@ public class Chargement {
     }
     
     
-    /** chargementEtudiants : methode permettant de charger les elements Enseignant et Etudiant
-     * @return  */
-    public HashMap<Integer,Etudiant> chargementEtudiants(){
+    /** chargementEtudiants : methode permettant de charger les elements Enseignant et Etudiant */
+    public void chargementEtudiants(){
         
         //Création d'un ArrayList Etudiant
         HashMap<Integer,Etudiant> etudiants = new HashMap<>();
@@ -225,12 +222,8 @@ public class Chargement {
                 
             }
             
-            //On retourne l'ArrayList
-            return etudiants;
-        
         } catch (SQLException ex) {
-            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            Logger.getLogger(Ecole.class.getName()).log(Level.SEVERE, null, ex);     
         }
     }
     

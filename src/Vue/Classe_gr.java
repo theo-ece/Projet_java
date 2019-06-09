@@ -6,22 +6,28 @@
 package Vue;
 
 import Controler.Controleur;
+import Model.HashExistant;
+import Model.HashInexistant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
+/** Classe_gr : classe graphique
  *
  * @author lro
  */
 public class Classe_gr extends javax.swing.JFrame {
 
     /** Attribut prive de la classe : a */
-    Controleur a;
+    private Controleur a;
     
     /**
      * Creates new form Classe_gr
+     * @param control de type Controleur
      */
     public Classe_gr(Controleur control) {
         initComponents();
         a = control;
+        classes.setModel(a.returnclasse());
     }
 
     /**
@@ -38,11 +44,13 @@ public class Classe_gr extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         Retour = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        classes = new javax.swing.JTable();
         Rechercher = new javax.swing.JButton();
         Voir = new javax.swing.JButton();
         Rechercher_id = new javax.swing.JTextField();
-        Modifier_id = new javax.swing.JTextField();
+        Ajout = new javax.swing.JButton();
+        Refresh = new javax.swing.JButton();
+        Supprimer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,7 +75,7 @@ public class Classe_gr extends javax.swing.JFrame {
         jPanel48Layout.setVerticalGroup(
             jPanel48Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel48Layout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -81,7 +89,7 @@ public class Classe_gr extends javax.swing.JFrame {
             }
         });
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        classes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -97,7 +105,7 @@ public class Classe_gr extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable3);
+        jScrollPane4.setViewportView(classes);
 
         Rechercher.setBackground(new java.awt.Color(153, 0, 0));
         Rechercher.setForeground(new java.awt.Color(255, 255, 255));
@@ -123,9 +131,31 @@ public class Classe_gr extends javax.swing.JFrame {
             }
         });
 
-        Modifier_id.addActionListener(new java.awt.event.ActionListener() {
+        Ajout.setBackground(new java.awt.Color(153, 0, 0));
+        Ajout.setForeground(new java.awt.Color(255, 255, 255));
+        Ajout.setText("Ajouter une classe");
+        Ajout.setToolTipText("");
+        Ajout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Modifier_idActionPerformed(evt);
+                AjoutActionPerformed(evt);
+            }
+        });
+
+        Refresh.setBackground(new java.awt.Color(153, 0, 0));
+        Refresh.setForeground(new java.awt.Color(255, 255, 255));
+        Refresh.setText("Afficher tout");
+        Refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RefreshActionPerformed(evt);
+            }
+        });
+
+        Supprimer.setBackground(new java.awt.Color(153, 0, 0));
+        Supprimer.setForeground(new java.awt.Color(255, 255, 255));
+        Supprimer.setText("Supprimer");
+        Supprimer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SupprimerActionPerformed(evt);
             }
         });
 
@@ -138,40 +168,49 @@ public class Classe_gr extends javax.swing.JFrame {
                 .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel47Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel47Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(Retour)
-                                .addGap(62, 62, 62))))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE))
                     .addGroup(jPanel47Layout.createSequentialGroup()
-                        .addGap(253, 253, 253)
-                        .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Rechercher_id, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Rechercher))
-                        .addGap(196, 196, 196)
-                        .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Modifier_id, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Voir, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(49, 49, 49)
+                        .addComponent(Refresh)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Retour)
+                        .addGap(62, 62, 62)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel47Layout.createSequentialGroup()
+                .addGap(121, 121, 121)
+                .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Rechercher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Rechercher_id))
+                .addGap(79, 79, 79)
+                .addComponent(Voir, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
+                .addComponent(Supprimer)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Ajout)
+                .addGap(97, 97, 97))
         );
         jPanel47Layout.setVerticalGroup(
             jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel47Layout.createSequentialGroup()
                 .addComponent(jPanel48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Rechercher_id, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Modifier_id, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Rechercher)
-                    .addComponent(Voir))
+                .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel47Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Rechercher_id, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Rechercher))
+                    .addGroup(jPanel47Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Voir)
+                            .addComponent(Ajout)
+                            .addComponent(Supprimer))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Retour)
+                .addGroup(jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Retour)
+                    .addComponent(Refresh))
                 .addContainerGap())
         );
 
@@ -193,39 +232,69 @@ public class Classe_gr extends javax.swing.JFrame {
         this.setVisible(false);
         Menu_gr test= new Menu_gr(a);
         test.setVisible(true);
-         test.setLocationRelativeTo(null);
+        test.setLocationRelativeTo(null);
     }//GEN-LAST:event_RetourActionPerformed
 
     private void RechercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RechercherActionPerformed
-        // TODO add your handling code here:
+        try {
+            classes.setModel(a.rechercher_classe(Integer.valueOf(Rechercher_id.getText())));
+
+        } catch (HashExistant | HashInexistant ex) {
+            Logger.getLogger(Etudiant_gr.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_RechercherActionPerformed
 
     private void VoirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VoirActionPerformed
-        this.setVisible(false);
-        ModifClasse_gr test= new ModifClasse_gr(a);
-        test.setVisible(true);
-         test.setLocationRelativeTo(null);
+        int ligne = classes.getSelectedRow();
+        if(ligne != -1){
+            this.setVisible(false);
+            int id = (int) classes.getValueAt(ligne, 0);
+            ModifClasse_gr test = new ModifClasse_gr(a, Integer.valueOf(id));
+            test.setVisible(true);
+            test.setLocationRelativeTo(null);
+        }
     }//GEN-LAST:event_VoirActionPerformed
 
     private void Rechercher_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Rechercher_idActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Rechercher_idActionPerformed
 
-    private void Modifier_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Modifier_idActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Modifier_idActionPerformed
+    private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
+        classes.setModel(a.returnclasse());
+    }//GEN-LAST:event_RefreshActionPerformed
+
+    private void AjoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjoutActionPerformed
+        this.setVisible(false);
+        AddClasse_gr test= new AddClasse_gr(a);
+        test.setVisible(true);
+        test.setLocationRelativeTo(null);
+    }//GEN-LAST:event_AjoutActionPerformed
+
+    private void SupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerActionPerformed
+        int ligne = classes.getSelectedRow();
+        if(ligne != -1){
+            int id = (int) classes.getValueAt(ligne, 0);
+            a.supprimer_classe(id);
+            Classe_gr test= new Classe_gr(a);
+            this.setVisible(false);
+            test.setVisible(true);
+            test.setLocationRelativeTo(null);
+        }
+    }//GEN-LAST:event_SupprimerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Modifier_id;
+    private javax.swing.JButton Ajout;
     private javax.swing.JButton Rechercher;
     private javax.swing.JTextField Rechercher_id;
+    private javax.swing.JButton Refresh;
     private javax.swing.JButton Retour;
+    private javax.swing.JButton Supprimer;
     private javax.swing.JButton Voir;
+    private javax.swing.JTable classes;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JPanel jPanel47;
     private javax.swing.JPanel jPanel48;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,13 +8,15 @@ import Controler.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
+
+/** Connexion_gr : classe grpahique
  *
  * @author lro
  */
 public class Connexion_gr extends javax.swing.JFrame {
 
-    Controleur control;
+    /** Atrtibut prive de la classe control */
+    private Controleur control;
     
     /**
      * Creates new form Connexion_gr
@@ -24,6 +26,8 @@ public class Connexion_gr extends javax.swing.JFrame {
         control = new Controleur();
     }
     
+    /** setControleur : permet de modifier l attribut control
+     * @param control de type Controleur */
     public void setControleur(Controleur control){
         this.control = control;
     }

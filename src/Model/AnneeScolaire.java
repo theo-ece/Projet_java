@@ -9,15 +9,15 @@ import Connexion.Connexion;
 import DAO.AnneeScolaireDAO;
 import java.util.ArrayList;
 
-/**
+/** AnneeScolaire : classe contenant les donnees liees a la table anneescolaire de la bdd
  *
  * @author thebo
  */
 public class AnneeScolaire {
     
     /** Attributs prives de la classe ID, date, trimestres et classes */
-    private final int ID;
-    private final String date;
+    private int ID;
+    private String date;
     private ArrayList<Trimestre> trimestres;
     private ArrayList<Classe> classes;
     
@@ -31,8 +31,8 @@ public class AnneeScolaire {
     }
     
     /** Constructeur surcharge avec deux parametres ID et date
-     * @param ID
-     * @param date */
+     * @param ID de type int
+     * @param date de type String */
     public AnneeScolaire(int ID, String date){
         this.ID = ID;
         this.date = date;
@@ -41,32 +41,38 @@ public class AnneeScolaire {
     }
     
     /** Constructeur surcharge avec un parametre date
-     * @param date */
+     * @param date de type String */
     public AnneeScolaire(String date){
         ID = 0;
         this.date = date;
     }
     
     /** getID : permettant d acceder a l attribut ID
-     * @return  */
+     * @return l attribut ID */
     public int getID(){
         return ID;
     }
     
+    /** setID : permettant de modifier l attribut ID
+     * @param id de type int */
+    public void setID(int id){
+        ID = id;
+    }
+    
     /** getDate : permettant d acceder a l attribut Date
-     * @return  */
+     * @return l attribut date */
     public String getDate(){
         return date;
     }
     
     /** getTrimestres : permettant d acceder a l attribut trimestres
-     * @return  */
+     * @return l attribut trimestres */
     public ArrayList<Trimestre> getTrimestres(){
         return trimestres;
     }
     
     /** addTrimestre : permettant d ajouter un trimestre a l attribut trimestres
-     * @param t */
+     * @param t un objet Trimestre */
     public void addTrimestres(Trimestre t){
         if(trimestres == null)
             trimestres = new ArrayList<>();
@@ -80,13 +86,13 @@ public class AnneeScolaire {
     }
     
     /** getClasses : permettant d acceder a l attribut classes
-     * @return  */
+     * @return l attribut classe */
     public ArrayList<Classe> getClasses(){
         return classes;
     }
     
     /** addClasses : permettant d ajouter une classes a l attribut classes
-     * @param c */
+     * @param c un objet Classe */
     public void addClasses(Classe c){
         if(classes == null)
             classes = new ArrayList<>();
@@ -101,7 +107,7 @@ public class AnneeScolaire {
     
     
     /** ajoutAnneeScolaire : methode permettant d ajouter une AnneeScolaire
-     * @param connect */
+     * @param connect un objet Connexion */
     public void ajoutAnneeScolaire(Connexion connect){
         
         //Création d'un objet AnneeScolaireDAO

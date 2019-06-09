@@ -12,14 +12,14 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/** ClasseDAO : classe qui recupere les donnees de la table classe de la BDD
  *
  * @author Flora
  */
 public class ClasseDAO extends DAO<Classe> {
     
     /** Construsteur surcharge avec un seul parametre connect
-     * @param connect */
+     * @param connect un objet de type Connexion */
     public ClasseDAO(Connexion connect) {
         
         //Appel du constructeur par défaut de la classe mère
@@ -27,11 +27,11 @@ public class ClasseDAO extends DAO<Classe> {
     }
 
     
-    /** creer : methode permettant de modifier un attribut d un objet de la table
-     * @param obj
-     * @param champ
-     * @param element
-     * @return  */
+    /** modifier : methode permettant de modifier un attribut d un objet de la table
+     * @param obj un objet de typ Anneescolaire
+     * @param champ un objet de type String 
+     * @param element un objet de type element
+     * @return vrai si la modification a eu lieu et non sinon */
     @Override
     public boolean modifier(Classe obj, String champ, String element) {
 
@@ -63,8 +63,7 @@ public class ClasseDAO extends DAO<Classe> {
 
     
     /** supprimer : methode permettant de supprimer un objet de la table
-     * @param obj
-     * @return  */
+     * @param obj un objet de type Classe */
     @Override
     public void supprimer(Classe obj) {
         
@@ -85,7 +84,8 @@ public class ClasseDAO extends DAO<Classe> {
 
     
     /** ajouter : methode permettant d ajouter un nouvel objet dans la table
-     * @return  */
+     * @param obj de type Classe
+     * @return l ID de l objet ajouter dans la bdd */
     @Override
     public int ajouter(Classe obj) {
         
@@ -118,7 +118,6 @@ public class ClasseDAO extends DAO<Classe> {
             
             //Récupération de l'ordre de la requete
             String rqt = "insert into classe (" + champs + ") values (\'" + obj.getNom() + "\'," + obj.getEcole().getID() + ", " + obj.getNiveau().getID() + ", " + obj.getAnnee().getID() + ");";
-            System.out.println(rqt);
             
             //Ajout de l'élément dans la table
             connect.getStatement().executeUpdate(rqt);
@@ -139,8 +138,8 @@ public class ClasseDAO extends DAO<Classe> {
 
     
     /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
-     * @param id
-     * @return  */
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Classe trouve */
     @Override
     public Classe trouver_et_charge(int id) {
         
@@ -193,8 +192,8 @@ public class ClasseDAO extends DAO<Classe> {
     
     
     /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
-     * @param id
-     * @return  */
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Classe trouve */
     @Override
     public Classe trouver(int id) {
         

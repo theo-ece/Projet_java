@@ -8,17 +8,18 @@ package DAO;
 import Connexion.Connexion;
 import Model.Evaluation;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/** EvaluationDAO : classe qui recupere les donnees de la table evaluation de la BDD
  *
  * @author Flora
  */
 public class EvaluationDAO extends DAO<Evaluation> {
     
     /** Construsteur surcharge avec un seul parametre connect
-     * @param connect */
+     * @param connect un objet de type Connexion */
     public EvaluationDAO(Connexion connect) {
         
         //Appel du constructeur par défaut de la classe mère
@@ -26,11 +27,11 @@ public class EvaluationDAO extends DAO<Evaluation> {
     }
 
     
-    /** creer : methode permettant de modifier un attribut d un objet de la table
-     * @param obj
-     * @param champ
-     * @param element
-     * @return  */
+    /** modifier : methode permettant de modifier un attribut d un objet de la table
+     * @param obj un objet de typ Anneescolaire
+     * @param champ un objet de type String 
+     * @param element un objet de type element
+     * @return vrai si la modification a eu lieu et non sinon */
     @Override
     public boolean modifier(Evaluation obj, String champ, String element) {
 
@@ -43,7 +44,7 @@ public class EvaluationDAO extends DAO<Evaluation> {
         }
 
         //Récupération de l'ordre de la requete
-        rqt = "update evualuation set " + champ + " = " + element + " where Id = " + obj.getID() + ";";
+        rqt = "update evaluation set " + champ + " = " + element + " where Id = " + obj.getID() + ";";
 
         try {
             //Suppression de l'élément de la table
@@ -62,8 +63,7 @@ public class EvaluationDAO extends DAO<Evaluation> {
 
     
     /** supprimer : methode permettant de supprimer un objet de la table
-     * @param obj
-     * @return  */
+     * @param obj un objet de type Evaluation */
     @Override
     public void supprimer(Evaluation obj) {
         
@@ -84,7 +84,8 @@ public class EvaluationDAO extends DAO<Evaluation> {
 
     
     /** ajouter : methode permettant d ajouter un nouvel objet dans la table
-     * @return  */
+     * @param obj de type Evaluation
+     * @return l ID de l objet ajouter dans la bdd */
     @Override
     public int ajouter(Evaluation obj) {
         
@@ -136,8 +137,9 @@ public class EvaluationDAO extends DAO<Evaluation> {
     }
 
     
-    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
-     * @return  */
+    /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Evaluation trouve */
     @Override
     public Evaluation trouver_et_charge(int id) {
         
@@ -166,8 +168,9 @@ public class EvaluationDAO extends DAO<Evaluation> {
     }
     
     
-    /** trouver : methode permettant de trouver un objet de la table via son id
-     * @return  */
+    /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Evaluation trouve */
     @Override
     public Evaluation trouver(int id) {
         
@@ -193,5 +196,25 @@ public class EvaluationDAO extends DAO<Evaluation> {
         return evaluation;
     
     }
-    
+    public double[] loadData() {        
+        //Création d'un objet Evaluation
+        double[] DATA;
+        ArrayList<Evaluation> eval = new ArrayList<>();       
+        try {
+            //Récupération de l'ordre de la requete
+            ResultSet rset = connect.getStatement().executeQuery("select * from evaluation");
+            while(rset.next()){         
+                eval.add(new Evaluation(0, rset.getDouble("Note"), rset.getString("Appreciation")));
+            }
+                        
+        } catch (SQLException ex) {
+            Logger.getLogger(EvaluationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+        DATA = new double[eval.size()];
+        for(int i=0;i<eval.size();i++){
+            DATA[i]=eval.get(i).getNote();
+        }
+        //Retourne l'objet trouvé
+        return DATA;    
+    }
 }

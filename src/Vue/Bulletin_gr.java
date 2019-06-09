@@ -6,9 +6,10 @@
 package Vue;
 
 import Controler.Controleur;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
-/**
+/** Bulletin_gr : classe graphique
  *
  * @author lro
  */
@@ -20,8 +21,8 @@ public class Bulletin_gr extends javax.swing.JFrame {
     
     /** Construction surcharge avec un parametre control
      * Creates new form Bulletin
-     * @param control
-     * @param Id_etudiant
+     * @param control de type Controleur
+     * @param Id_etudiant de type int
      */
     public Bulletin_gr(Controleur control, int Id_etudiant) {
         initComponents();
@@ -31,6 +32,8 @@ public class Bulletin_gr extends javax.swing.JFrame {
         //Affichage des années
         for(int i=0; i<a.returnannee().length; i++)
             annee.addItem(a.returnannee()[i]);
+        annee.setSelectedItem(null);
+        trimestres.setSelectedItem(null);
     }
 
     /**
@@ -59,6 +62,7 @@ public class Bulletin_gr extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         annee = new javax.swing.JComboBox<>();
         supprimer_note = new javax.swing.JButton();
+        Statistiques = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -170,10 +174,21 @@ public class Bulletin_gr extends javax.swing.JFrame {
             }
         });
 
+        supprimer_note.setBackground(new java.awt.Color(153, 0, 0));
+        supprimer_note.setForeground(new java.awt.Color(255, 255, 255));
         supprimer_note.setText("Supprimer une note");
         supprimer_note.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 supprimer_noteActionPerformed(evt);
+            }
+        });
+
+        Statistiques.setBackground(new java.awt.Color(153, 0, 0));
+        Statistiques.setForeground(new java.awt.Color(255, 255, 255));
+        Statistiques.setText("Statistiques");
+        Statistiques.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatistiquesActionPerformed(evt);
             }
         });
 
@@ -183,65 +198,73 @@ public class Bulletin_gr extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Moyenne, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(trimestres, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(annee, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(Appreciation, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Moyenne, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(trimestres, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(annee, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Appreciation, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(Statistiques)))
                 .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(Modifnote, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
+                        .addGap(27, 27, 27)
                         .addComponent(Addnote)
-                        .addGap(26, 26, 26)
+                        .addGap(31, 31, 31)
                         .addComponent(supprimer_note)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Retour))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE))
                 .addGap(38, 38, 38))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                        .addGap(12, 12, 12))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(annee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(trimestres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(22, 22, 22)
+                        .addGap(15, 15, 15)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(Moyenne, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
+                        .addGap(28, 28, 28)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Appreciation, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Retour)
-                            .addComponent(Addnote)
-                            .addComponent(Modifnote)
-                            .addComponent(supprimer_note))
-                        .addGap(16, 16, 16))))
+                        .addGap(57, 57, 57)
+                        .addComponent(Statistiques)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Retour)
+                    .addComponent(Addnote)
+                    .addComponent(Modifnote)
+                    .addComponent(supprimer_note))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -271,13 +294,17 @@ public class Bulletin_gr extends javax.swing.JFrame {
 
     private void trimestresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trimestresActionPerformed
         if(a.returntrimestre(trimestres.getSelectedIndex()+1) != null){
+            DefaultTableModel model = new DefaultTableModel();
+            model.setRowCount(0);
+            bulletins.setModel(model);
+            Appreciation.setText("");
+            Moyenne.setText("");
+                
             if(a.returnbulletins(Id_etudiant, a.recherchetrimestres(annee.getItemAt(annee.getSelectedIndex()), trimestres.getItemAt(trimestres.getSelectedIndex()))) != null){
-
-                DefaultTableModel model = new DefaultTableModel();
-                model.setRowCount(0);
-                bulletins.setModel(model);
-                Appreciation.setText("");
-                Moyenne.setText("");
+                //Affichage du bulletin
+                bulletins.setModel(a.returnbulletins(Id_etudiant, a.recherchetrimestres(annee.getItemAt(annee.getSelectedIndex()), trimestres.getItemAt(trimestres.getSelectedIndex()))));
+                Moyenne.setText(""+a.moyenne(Id_etudiant, a.recherchetrimestres(annee.getItemAt(annee.getSelectedIndex()), trimestres.getItemAt(trimestres.getSelectedIndex()))));
+                Appreciation.setText(a.returnappreciation(Id_etudiant, a.recherchetrimestres(annee.getItemAt(annee.getSelectedIndex()), trimestres.getItemAt(trimestres.getSelectedIndex()))));
             }
         }
     }//GEN-LAST:event_trimestresActionPerformed
@@ -298,15 +325,20 @@ public class Bulletin_gr extends javax.swing.JFrame {
     }//GEN-LAST:event_AddnoteActionPerformed
 
     private void ModifnoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifnoteActionPerformed
-        this.setVisible(false);
-        Note_gr test= new Note_gr(a, Id_etudiant);
-        test.setVisible(true);
-        test.setLocationRelativeTo(null);
+        int ligne = bulletins.getSelectedRow();
+        if(ligne != -1){
+            int id = (int) bulletins.getValueAt(ligne, 0);
+            this.setVisible(false);
+            ModifNote_gr test= new ModifNote_gr(a, Id_etudiant, id);
+            test.setVisible(true);
+            test.setLocationRelativeTo(null);
+        }
     }//GEN-LAST:event_ModifnoteActionPerformed
 
     private void anneeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anneeActionPerformed
         if(a.returntrimestre(annee.getSelectedIndex()+1) != null){
             
+            trimestres.removeAllItems();
             DefaultTableModel model = new DefaultTableModel();
             model.setRowCount(0);
             bulletins.setModel(model);
@@ -322,8 +354,13 @@ public class Bulletin_gr extends javax.swing.JFrame {
                 bulletins.setModel(a.returnbulletins(Id_etudiant, a.recherchetrimestres(annee.getItemAt(annee.getSelectedIndex()), trimestres.getItemAt(trimestres.getSelectedIndex()))));
                 Moyenne.setText(""+a.moyenne(Id_etudiant, a.recherchetrimestres(annee.getItemAt(annee.getSelectedIndex()), trimestres.getItemAt(trimestres.getSelectedIndex()))));
                 Appreciation.setText(a.returnappreciation(Id_etudiant, a.recherchetrimestres(annee.getItemAt(annee.getSelectedIndex()), trimestres.getItemAt(trimestres.getSelectedIndex()))));
+                
             }
-            
+            else{
+                Appreciation.setText("");
+                Moyenne.setText("");
+            }
+ 
         }
         else {
             trimestres.removeAllItems();
@@ -331,8 +368,7 @@ public class Bulletin_gr extends javax.swing.JFrame {
             model.setRowCount(0);
             bulletins.setModel(model);
             Appreciation.setText("");
-            Moyenne.setText("");
-            
+            Moyenne.setText("");           
         }
     }//GEN-LAST:event_anneeActionPerformed
 
@@ -348,6 +384,17 @@ public class Bulletin_gr extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_supprimer_noteActionPerformed
 
+    private void StatistiquesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatistiquesActionPerformed
+        this.setVisible(true);
+        ArrayList<Double> data = new ArrayList<>();
+        int it=0;
+        while(trimestres.getItemAt(it)!=null){
+            data.add(a.moyenne(Id_etudiant, a.recherchetrimestres(annee.getItemAt(annee.getSelectedIndex()), trimestres.getItemAt(it))));
+            it++;
+        }
+        new CEvolution(data);        
+    }//GEN-LAST:event_StatistiquesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Addnote;
@@ -355,6 +402,7 @@ public class Bulletin_gr extends javax.swing.JFrame {
     private javax.swing.JButton Modifnote;
     private javax.swing.JTextField Moyenne;
     private javax.swing.JButton Retour;
+    private javax.swing.JButton Statistiques;
     private javax.swing.JComboBox<String> annee;
     private javax.swing.JTable bulletins;
     private javax.swing.JLabel jLabel1;

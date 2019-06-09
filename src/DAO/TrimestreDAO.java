@@ -8,18 +8,17 @@ package DAO;
 import Connexion.Connexion;
 import Model.Trimestre;
 import java.sql.*;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
+/** TrimestreDAO : classe qui recupere les donnees de la table trimestre de la BDD
  *
  * @author Flora
  */
 public class TrimestreDAO extends DAO<Trimestre> {
     
     /** Construsteur surcharge avec un seul parametre connect
-     * @param connect */
+     * @param connect un objet de type Connexion */
     public TrimestreDAO(Connexion connect) {
         
         //Appel du constructeur par défaut de la classe mère
@@ -27,11 +26,11 @@ public class TrimestreDAO extends DAO<Trimestre> {
     }
 
     
-    /** creer : methode permettant de modifier un attribut d un objet de la table
-     * @param obj
-     * @param champ
-     * @param element
-     * @return  */
+    /** modifier : methode permettant de modifier un attribut d un objet de la table
+     * @param obj un objet de typ Anneescolaire
+     * @param champ un objet de type String 
+     * @param element un objet de type element
+     * @return vrai si la modification a eu lieu et non sinon */
     @Override
     public boolean modifier(Trimestre obj, String champ, String element) {
 
@@ -63,8 +62,7 @@ public class TrimestreDAO extends DAO<Trimestre> {
 
     
     /** supprimer : methode permettant de supprimer un objet de la table
-     * @param obj
-     * @return  */
+     * @param obj un objet de type Trimestre */
     @Override
     public void supprimer(Trimestre obj) {
         
@@ -85,7 +83,8 @@ public class TrimestreDAO extends DAO<Trimestre> {
 
     
     /** ajouter : methode permettant d ajouter un nouvel objet dans la table
-     * @return  */
+     * @param obj de type Trimestre
+     * @return l ID de l objet ajouter dans la bdd */
     @Override
     public int ajouter(Trimestre obj) {
         
@@ -116,11 +115,6 @@ public class TrimestreDAO extends DAO<Trimestre> {
                 }
             }
             
-            //Récupération des annees
-            Calendar c = Calendar.getInstance();
-            c.setTime(obj.getDebut());
-            System.out.println(c);
-            
             //Récupération de l'ordre de la requete
             ResultSet rset1 = connect.getConnexion().createStatement().executeQuery("select * from anneescolaire");
             
@@ -145,8 +139,9 @@ public class TrimestreDAO extends DAO<Trimestre> {
     }
 
     
-    /** trouver_et_charge : methode permettant de trouver et de charger dans les donnees un objet de la table via son id
-     * @return  */
+    /** trouver_et_charge : methode permettant de trouver et charger dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Trimestre trouve */
     @Override
     public Trimestre trouver_et_charge(int id) {
         
@@ -161,7 +156,7 @@ public class TrimestreDAO extends DAO<Trimestre> {
             if (rset.first()){
                 
                 //Création du nouvel objet Trimestre
-                trimestre = new Trimestre(id, rset.getInt("Numero"), rset.getDate("Debut"), rset.getDate("Fin"));
+                trimestre = new Trimestre(id, rset.getInt("Numero"), rset.getString("Debut"), rset.getString("Fin"));
             }
             
         } catch (SQLException ex) {
@@ -197,8 +192,9 @@ public class TrimestreDAO extends DAO<Trimestre> {
     }
     
     
-     /** trouver : methode permettant de trouver un objet de la table via son id
-     * @return  */
+    /** trouver : methode permettant de trouver dans les donnees un objet de la table via son id
+     * @param id l id de l objet qu il faut trouver dans la bdd
+     * @return l objet Trimestre trouve */
     @Override
     public Trimestre trouver(int id) {
         
@@ -213,7 +209,7 @@ public class TrimestreDAO extends DAO<Trimestre> {
             if (rset.first()){
                 
                 //Création du nouvel objet Trimestre
-                trimestre = new Trimestre(id, rset.getInt("Numero"), rset.getDate("Debut"), rset.getDate("Fin"));
+                trimestre = new Trimestre(id, rset.getInt("Numero"), rset.getString("Debut"), rset.getString("Fin"));
             }
             
         } catch (SQLException ex) {

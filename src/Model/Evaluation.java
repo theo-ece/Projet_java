@@ -8,13 +8,13 @@ package Model;
 import Connexion.Connexion;
 import DAO.EvaluationDAO;
 
-/**
+/** Evaluation : classe contenant les donnees liees a la table evaluation de la bdd
  *
  * @author thebo
  */
 public class Evaluation {
     
-    /** Attributs prives de la classe ID, note */
+    /** Attributs prives de la classe ID, note, appreciaiton */
     private int ID;
     private double note;
     private String appreciation;
@@ -30,9 +30,9 @@ public class Evaluation {
     }
     
     /** Constructeur surcharge avec trois parametres ID, note et appreciation
-     * @param ID
-     * @param note
-     * @param appreciation */
+     * @param ID de type int
+     * @param note de type double
+     * @param appreciation de type String */
     public Evaluation(int ID, double note, String appreciation){
         this.ID = ID;
         this.note = note;
@@ -40,8 +40,8 @@ public class Evaluation {
     }
     
     /** Constructeur surcharge avec deux parametres note et appreciation
-     * @param note
-     * @param appreciation */
+     * @param note de type double
+     * @param appreciation de type String */
     public Evaluation(double note, String appreciation){
         ID = 0;
         this.note = note;
@@ -49,55 +49,55 @@ public class Evaluation {
     }
     
     /** getID : permettant d acceder a l attribut ID
-     * @return  */
+     * @return l attribut ID */
     public int getID(){
         return ID;
     }
     
     /** setID : permettant de modifier l attribut ID
-     * @param ID */
+     * @param ID de type int */
     public void setID(int ID){
         this.ID = ID;
     }
     
     /** getNote : permettant d acceder a l attribut note
-     * @return  */
+     * @return l attribut note */
     public double getNote(){
         return note;
     }
     
     /** setNote : permettant de modifier l attribut note
-     * @param note */
+     * @param note de type double */
     public void setNote(double note){
         this.note = note;
     }
     
     /** getAppreciation : permettant d acceder a l attribut appreciation
-     * @return  */
+     * @return l attribut appreciation */
     public String getAppreciation(){
         return appreciation;
     }
     
     /** setAppreciation : permettant de modifier l attribut appreciation
-     * @param appreciation  */
+     * @param appreciation de type String */
     public void setAppreciation(String appreciation){
         this.appreciation = appreciation;
     }
     
     /** getDetailsB : permettant d acceder a l attribut detail_bulletin
-     * @return  */
+     * @return l attribut detail_bulletin */
     public DetailBulletin getDetailsB(){
         return detail_bulletin;
     }
     
     /** setDetailsb : permettant de modifier l attribut detail_bulletin
-     * @param detail_bulletin */
+     * @param detail_bulletin de type DetailBulletin */
     public void setDetailsB(DetailBulletin detail_bulletin){
         this.detail_bulletin = detail_bulletin;
     }
     
     /** ajoutEvaluation : methode permettant d ajouter une evaluation
-     * @param connect */
+     * @param connect de type Connexion */
     public void ajoutEvaluation(Connexion connect){
         
         //Création d'un objet EvaluationDAO
@@ -106,23 +106,5 @@ public class Evaluation {
         //Appel de la fonction d'ajout
         evaluation_dao.ajouter(this);
     }
-    
-    
-    // Si l'eval existe
-    public Evaluation(int iD){
-        ID = iD;
-        /*
-            sortir de la BDD la note, l'appreciation, ID -> l'etudiant et le correcteur        
-        */
-    }
-    
-    /*
-    // Graphique
-    public void showEval(){
-        
-    }
-    
-    // getteurs
-    public double _get(){return note;}
-    public String _get_appreciation(){return appreciation;}*/
+
 }

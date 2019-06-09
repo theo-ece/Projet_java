@@ -5,7 +5,7 @@
  */
 package Model;
 
-/**
+/** HashInexistant : exception pour la recherche d un ID
  *
  * @author thebo
  */

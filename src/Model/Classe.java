@@ -7,10 +7,9 @@ package Model;
 
 import Connexion.Connexion;
 import DAO.ClasseDAO;
-import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
+/** Classe : classe contenant les donnees liees a la table classe de la bdd
  *
  * @author thebo
  */
@@ -35,8 +34,8 @@ public class Classe {
     }
     
     /** Constructeur surchage avec deux parametres ID et nom
-     * @param ID
-     * @param nom */
+     * @param ID de type int
+     * @param nom de type String */
     public Classe(int ID, String nom){
         this.ID = ID;
         this.nom = nom;
@@ -44,7 +43,7 @@ public class Classe {
     }
     
     /** Constructeur surchage avec un parametre nom
-     * @param nom */
+     * @param nom de type String */
     public Classe(String nom){
         ID = 0;
         this.nom = nom;
@@ -52,31 +51,38 @@ public class Classe {
     }
     
     /** getID : permet d acceder a l attribut ID
-     * @return  */
+     * @return l attribut ID */
     public int getID(){
         return ID;
     }
     
     /** setID : permettant de modifier l attribut ID
-     * @param id */
+     * @param id de type int */
     public void setID(int id){
         ID = id;
     }
     
     /** getNom : permet d acceder a l attribut nom
-     * @return  */
+     * @return l attribut nom */
     public String getNom(){
         return nom;
     }
     
+    /** setNom : permet de modifier l attribut nom
+     * @param nom de type String */
+    public void setNom(String nom){
+        this.nom = nom;
+    }
+    
+    
     /** getEtudiants : permet d acceder a l attribut etudiants
-     * @return  */
+     * @return l attribut etudiants */
     public HashMap<Integer, Etudiant> getEtudiants(){
         return etudiants;
     }
     
     /** addEtudiants : methode qui permet d ajouter un etudiant dans etudiants
-     * @param e */
+     * @param e de type Etudiant */
     public void addEtudiants(Etudiant e){
         if(etudiants == null)
             etudiants = new HashMap<>();
@@ -90,43 +96,43 @@ public class Classe {
     }
     
     /** getNiveau : permet d acceder a l attribut niveau
-     * @return  */
+     * @return l attribut niveau */
     public Niveau getNiveau(){
         return niveau;
     }
     
     /** getEcole : permet d acceder a l attribut ecole
-     * @return  */
+     * @return l attribut ecole */
     public Ecole getEcole(){
         return ecole;
     }
     
     /** getAnnee : permet d acceder a l attribut annee
-     * @return  */
+     * @return l attribut annee */
     public AnneeScolaire getAnnee(){
         return annee;
     }
     
     /** getNiveau : permet de modifier l attribut niveau
-     * @param niveau  */
+     * @param niveau de type Niveau */
     public void setNiveau(Niveau niveau){
         this.niveau = niveau;
     }
     
     /** getEcole : permet de modifier l attribut ecole
-     * @param ecole */
+     * @param ecole de type Ecole */
     public void setEcole(Ecole ecole){
         this.ecole = ecole; 
     }
     
     /** getAnnee : permet de modifier l attribut annee
-     * @param annee */
+     * @param annee de type AnneeScolaire */
     public void setAnnee(AnneeScolaire annee){
         this.annee = annee;
     }
     
     /** ajoutClasse : methode permettant d ajouter une Classe
-     * @param connect */
+     * @param connect de type Connexion */
     public void ajoutClasse(Connexion connect){
         
         //Création d'un objet ClasseDAO
@@ -135,76 +141,4 @@ public class Classe {
         //Appel de la fonction d'ajout
         classe_dao.ajouter(this);
     }
-
-    /*
-
-    //A completer
-    public Classe(int iD){
-        ID=iD;
-        // Extraire nom , discipline , niveau , prof de la BDD
-        chargement_etudiants(iD);
-    }
-    // Creation d'une nouvelle classe
-    public Classe(int iD, String N, Niveau lvl, Enseignant Prof, ArrayList<Discipline> matiere){
-        etudiants = new HashMap<>();
-        ID=iD;
-        nom=N;
-        niveau=lvl;
-        prof=Prof;
-        disciplines=matiere;
-    }
-    
-    
-    public void test(){}
-    public void run(String path, int id){
-        
-    }
-    
-    // Fonction de chargement -> a faire
-    public void chargement_etudiants(int key){
-        etudiants = new HashMap<>();
-    }
-    
-    // Fonction de recherche
-    public void recherche_etudiant(String key) throws HashExistant, HashInexistant{    // question 1.3
-        try{
-            etudiants.get(Integer.valueOf(key)).test();
-            throw new HashExistant();
-        }
-        catch(NullPointerException e){
-            throw new HashInexistant("Enseignant " + key + " non existant");
-        }
-    }
-        
-    // Fonctions d'ajout
-    public void ajout_etudiant(int ID, Etudiant a){
-        String key = ""+ID;
-        try{
-            recherche_etudiant(key);
-        }catch(HashInexistant e){
-            etudiants.put(ID, a);
-        }catch(HashExistant e){
-            
-        }
-    }   // + modification de la BDD à faire / Graphique
-    
-    // Fonction de suppression    
-    public void erase_etudiant(){
-        String key="";
-        System.out.println("ID de la Classe a supprimer : ");
-        Scanner sc = new Scanner(System.in);
-        key = sc.nextLine();
-        try{
-            recherche_etudiant(key);
-        }catch(HashInexistant e){
-            System.out.println("La classe n'existe pas.");
-        }catch(HashExistant e){
-            etudiants.remove(Integer.valueOf(key));
-            // A supprimer dans BDD
-        }
-    }   // + modif BDD à faire / Graphique
-    
-    // Fonction d'import de la BDD    
-    public Etudiant import_etudiant(int key){return new Etudiant(key);}
-    */
 }
