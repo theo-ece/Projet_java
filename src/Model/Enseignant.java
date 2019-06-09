@@ -5,113 +5,103 @@
  */
 package Model;
 
+import Connexion.Connexion;
+import DAO.PersonneDAO;
 import java.util.HashMap;
-import java.util.Scanner;
 
-/**
+/** Enseignant : classe qui herite de Personne
  *
  * @author thebo
  */
 public class Enseignant extends Personne{
-    protected HashMap<Integer, Etudiant> etudiants;
-    protected HashMap<Integer, Classe> classes;
-    public Enseignant(int id, String Nom, String Prenom){
-        super(id,Nom,Prenom,1);
-    }
-    public void test(){}
     
-    // Main de Enseignant
-    public void run(String Path, int id){
-        chargementClasse();
-        chargementEtudiant();
-        this.path = Path + " -> Etudiant";
-        String str="";
-        do{
-            str="";
-            System.out.println("Entrer votre choix : ");
-            System.out.println("    etudiants");
-            System.out.println("    classes");
-            System.out.println("Pour sortir : exit");            
-            Scanner sc = new Scanner(System.in);
-            str = sc.nextLine();
-            if(null != str)switch (str) {
-                case "classes":
-                    showClasses(this.path);
-                    break;
-                case "etudiants":
-                    showEtudiants(this.path);
-                    break;
-                default:
-                    break;
-            }
-        }while(!"exit".equals(str));
+    
+    /** Attributs prives de la classe discipline, classe et etudiants */
+    private Discipline discipline;
+    private Classe classe;
+    private HashMap<Integer, Etudiant> etudiants;
+    
+    /** Constructeur par defaut */
+    public Enseignant(){
+        super(0,"","",0);
+        discipline = null;
+        classe = null;
     }
     
-    // Fonctions d'appel du choix (done)
-    public void showClasses(String src){
-        classes.keySet().forEach((key) -> {
-            System.out.println(src + " -> Classe -> ["+ key + "] : " + classes.get(key));
-        });
-        String str="";
-        do{
-            str="";
-            System.out.println("exit pour sortir");                        
-            Scanner sc = new Scanner(System.in);            
-            str = sc.nextLine(); 
-            try{
-                recherche_classe(str);
-            }catch(HashInexistant e){   
-            
-            }
-            catch(HashExistant e){
-                classes.get(Integer.valueOf(str)).run(path, Integer.valueOf(str));
-            }
-        }while(!"exit".equals(str));
-    } 
-    public void showEtudiants(String src){
-        etudiants.keySet().forEach((key) -> {
-            System.out.println( src + " -> Enseignants -> ["+ key + "] : " + etudiants.get(key));
-        });
-        String str="";
-        do{
-            str="";
-            System.out.println("exit pour sortir");                        
-            Scanner sc = new Scanner(System.in);            
-            str = sc.nextLine(); 
-            try{
-                recherche_etudiant(str);
-            }catch(HashInexistant e){   
-            
-            }
-            catch(HashExistant e){
-                etudiants.get(Integer.valueOf(str)).run(path, Integer.valueOf(str));
-            }
-        }while(!"exit".equals(str));
-    }
-    public void recherche_etudiant(String key) throws HashExistant, HashInexistant{    // question 1.3
-        try{
-            etudiants.get(Integer.valueOf(key)).test();
-            throw new HashExistant();
-        }
-        catch(NullPointerException e){
-            throw new HashInexistant("Enseignant " + key + " non existant");
-        }
-    }
-    public void recherche_classe(String key) throws HashExistant, HashInexistant{    // question 1.3
-        try{
-            classes.get(Integer.valueOf(key)).test();
-            throw new HashExistant();
-        }
-        catch(NullPointerException e){
-            throw new HashInexistant("Niveau " + key + " non existant");
-        }
+    /** Constructeur surcharge avec quatre parametres ID, Nom, Prenom et type
+     * @param ID de type int
+     * @param Nom de type String
+     * @param Prenom de type String
+     * @param type de type int */
+    public Enseignant(int ID, String Nom, String Prenom, int type){
+        super(ID, Nom, Prenom, type);
+        discipline = null;
+        classe = null;
     }
     
-    // Fonctions de chargement
-    public void chargementEtudiant(){
+    /** Constructeur surcharge avec trois parametres Nom, Prenom et type
+     * @param Nom de type String
+     * @param Prenom de type String
+     * @param type de type int */
+    public Enseignant(String Nom, String Prenom, int type){
+        super(0, Nom, Prenom, type);
+        discipline = null;
+        classe = null;
+    }
+    
+    /** getDiscipline : permettant d acceder a l attribut discipline
+     * @return l attribut discipline */
+    public Discipline getDiscipline(){
+        return discipline;
+    }
+    
+    /** setDiscipline : permettant de modifier l attribut discipline
+     * @param discipline de type Discipline */
+    public void setDiscipline(Discipline discipline){
+        this.discipline = discipline;
+    }
+    
+    /** getClasse : permettant d acceder a l attribut classe
+     * @return l attribut classe */
+    public Classe getClasse(){
+        return classe;
+    }
+    
+    /** setClasse : permettant de modifier l attribut classe
+     * @param classe de type Classe */
+    public void setClasse(Classe classe){
+        this.classe = classe;
+    }
+    
+    /** getEtudiants : permettant d acceder a l attribut etudiants
+     * @return l attribut etudiants */
+    public HashMap<Integer, Etudiant> getEtudiants(){
+        return etudiants;
+    }
+    
+    /** addEtudiants : permettant d ajouter un etudiant a l attribut etudiants
+     * @param e de type Etudiant */
+    public void addEtudiants(Etudiant e){
+        if(etudiants == null)
+            etudiants = new HashMap<>();
         
+        etudiants.put(e.getID(), e);
     }
-    public void chargementClasse(){
+    
+    /** removeAllEtudiants : permettant de supprimer tous les etudiants de l attribut etudiants */
+    public void removeAllEtudiants(){
+        etudiants.clear();
+    }
+    
+    /** ajoutEnseignant : methode permettant d ajouter un enseignant
+     * @param connect de type Connexion */
+    public void ajoutEnseignant(Connexion connect){
         
+        //Création d'un objet PersonneDAO
+        PersonneDAO enseignant_dao = new PersonneDAO(connect);
+        
+        //Appel de la fonction d'ajout
+        enseignant_dao.ajouter(this);
     }
+    
 }
